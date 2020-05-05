@@ -1,30 +1,38 @@
-import Db from './db';
+import Mounths from './mounths';
 import selectActions from './selectActions';
 import Year from './year';
 import { arrayCreator } from './helpers';
+import CountDown from './countdown';
 
+const startBtn = document.getElementById('start');
 const yearInput = document.getElementById('inputYear');
-const mounthSelector = document.getElementById('inputMounths');
 const selectDays = new selectActions(document.getElementById('inputDays'));
-const selectMounths = new selectActions(mounthSelector);
+const selectMounths = new selectActions(document.getElementById('inputMounths'));
 
 yearInput.value = Year.year;
 
 const renderDays = (val) => {
 	if (val.length > 0) {
-		for (let key in Db) {
-			if (Db[key].name === val) {
-				selectDays.addOptions(arrayCreator(Db[key].daysPerMounth(Year.leap)));
-				selectDays.switchDisable();
-			}
-		}
+		selectDays.addOptions(arrayCreator(Mounths.getMounth(val).daysPerMounth(Year.leap)));
+		selectDays.switchDisable();
 	}
 };
 
 yearInput.addEventListener('input', (e) => {
 	Year.year = e.target.value;
-	renderDays(mounthSelector.value);
+	renderDays(selectMounths.getInstance().value);
 });
 
-mounthSelector.addEventListener('change', (e) => renderDays(e.target.value));
-selectMounths.addOptions(Object.entries(Db).map((mounth) => mounth[1].name));
+selectMounths.getInstance().addEventListener('change', (e) => renderDays(e.target.value));
+selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
+
+startBtn.addEventListener('click', (e) => {
+	e.preventDefault();
+	// console.log(selectDays.getInstance().value, Mounths.getKey(selectMounths.getInstance().value), Year.year);
+	let cd = new CountDown(
+		selectDays.getInstance().value,
+		Mounths.getKey(selectMounths.getInstance().value),
+		Year.year
+	);
+	console.log(cd.getDate());
+});

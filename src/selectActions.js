@@ -5,6 +5,10 @@ class selectActions {
 		this.select = selector;
 	}
 
+	getInstance() {
+		return this.select;
+	}
+
 	clearContent() {
 		this.select.innerHTML = '';
 	}
