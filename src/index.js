@@ -29,12 +29,13 @@ selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[
 
 startBtn.addEventListener('click', (e) => {
 	e.preventDefault();
-	// console.log(selectDays.getInstance().value, Mounths.getKey(selectMounths.getInstance().value), Year.year);
 	let cd = new CountDown(
 		selectDays.getInstance().value,
 		Mounths.getKey(selectMounths.getInstance().value),
 		Year.year
 	);
-	console.log(timeFormatter(cd.getDate()));
-	document.getElementById('wait').innerText = timeFormatter(cd.getDate());
+
+	setInterval(() => {
+		document.getElementById('wait').innerText = timeFormatter(cd.getDate());
+	}, 100);
 });
