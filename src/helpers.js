@@ -6,7 +6,20 @@ export const arrayCreator = function (len) {
 	return arr;
 };
 
-export const generateElement = function (option, el) {
+export const generateSelectorBlock = function () {
+	const wrapper = document.createElement('div');
+	wrapper.classList.add('form-group', 'col-md-1');
+	return wrapper;
+};
+
+export const generateSelector = function (disableStatus) {
+	const selectorDays = document.createElement('select');
+	selectorDays.classList.add('form-control');
+	selectorDays.setAttribute(disableStatus, true);
+	return selectorDays;
+};
+
+export const generateOptions = function (option, el) {
 	let newElement = document.createElement(option);
 	newElement.textContent = el;
 	return newElement;

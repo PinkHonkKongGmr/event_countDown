@@ -1,4 +1,4 @@
-import { generateElement } from './helpers';
+import { generateOptions } from './helpers';
 
 class selectActions {
 	constructor(selector) {
@@ -15,7 +15,7 @@ class selectActions {
 
 	addOptions(options) {
 		options.forEach((el) => {
-			this.select.appendChild(generateElement('option', el));
+			this.select.appendChild(generateOptions('option', el));
 		});
 	}
 
