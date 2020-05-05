@@ -3,6 +3,7 @@ import selectActions from './selectActions';
 import Year from './year';
 import { arrayCreator } from './helpers';
 import CountDown from './countdown';
+import timeFormatter from './timeFormatter';
 
 const startBtn = document.getElementById('start');
 const yearInput = document.getElementById('inputYear');
@@ -34,5 +35,5 @@ startBtn.addEventListener('click', (e) => {
 		Mounths.getKey(selectMounths.getInstance().value),
 		Year.year
 	);
-	console.log(cd.getDate());
+	document.getElementById('wait').innerText = timeFormatter(cd.getDate());
 });

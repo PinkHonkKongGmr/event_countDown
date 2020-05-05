@@ -6,7 +6,7 @@ class CountDown {
 		this.date = new Date(`${this.dayValue} ${this.mounthValue} ${this.yearValue}`);
 	}
 	getDate() {
-		return this.date;
+		return this.date - Date.now();
 	}
 }
 
