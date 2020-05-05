@@ -7,34 +7,34 @@ const timeFormatter = (ms) => {
 	if (seconds < 60) {
 		return { seconds: Math.round(seconds) };
 	} else {
-		minutes = seconds / 60;
-		seconds = minutes % 60;
+		minutes = Math.floor(seconds / 60);
+		seconds = Math.floor(seconds - minutes * 60);
 		if (minutes < 60) {
-			return { seconds: Math.round(seconds), minutes: Math.round(minutes) };
+			return { seconds, minutes };
 		} else {
-			hours = minutes / 60;
-			minutes = hours % 60;
+			hours = Math.floor(minutes / 60);
+			minutes = minutes - hours * 60;
 			if (hours < 24) {
-				return { seconds: Math.round(seconds), minutes: Math.round(minutes), hours: Math.round(hours) };
+				return { seconds, minutes, hours };
 			} else {
-				days = hours / 24;
-				hours = days % 24;
+				days = Math.floor(hours / 24);
+				hours = hours - days * 24;
 				if (days / 30.5) {
 					return {
-						seconds: Math.round(seconds),
-						minutes: Math.round(minutes),
-						hours: Math.round(hours),
-						days: Math.round(days),
+						seconds,
+						minutes,
+						hours,
+						days,
 					};
 				} else {
-					mounths = days / 30.5;
-					days = mounths % 30.5;
+					mounths = Math.floor(days / 30.5);
+					days = days - mounths * 30.5;
 					return {
-						seconds: Math.round(seconds),
-						minutes: Math.round(minutes),
-						hours: Math.round(hours),
-						days: Math.round(days),
-						mounths: Math.round(mounths),
+						seconds,
+						minutes,
+						hours,
+						days,
+						mounths,
 					};
 				}
 			}
@@ -44,7 +44,7 @@ const timeFormatter = (ms) => {
 
 const result = (ms) =>
 	Object.entries(timeFormatter(ms))
-		.join(' ')
+		.join(',')
 		.replace(/seconds/, 'секунды')
 		.replace(/minutes/, 'минуты')
 		.replace(/days/, 'дни')
