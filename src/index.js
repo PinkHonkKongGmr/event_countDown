@@ -35,5 +35,6 @@ startBtn.addEventListener('click', (e) => {
 		Mounths.getKey(selectMounths.getInstance().value),
 		Year.year
 	);
+	console.log(timeFormatter(cd.getDate()));
 	document.getElementById('wait').innerText = timeFormatter(cd.getDate());
 });

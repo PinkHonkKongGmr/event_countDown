@@ -42,6 +42,14 @@ const timeFormatter = (ms) => {
 	}
 };
 
-const result = (ms) => JSON.stringify(timeFormatter(ms));
+const result = (ms) =>
+	Object.entries(timeFormatter(ms))
+		.join(' ')
+		.replace(/seconds/, 'секунды')
+		.replace(/minutes/, 'минуты')
+		.replace(/days/, 'дни')
+		.replace(/hours/, 'часы')
+		.replace(/mounths/, 'месяцы')
+		.replace(/,/gi, ': ');
 
 export default result;
