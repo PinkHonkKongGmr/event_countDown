@@ -19,8 +19,11 @@ class selectActions {
 		});
 	}
 
-	switchDisable() {
+	enable() {
 		this.select.disabled = false;
+	}
+	disable() {
+		this.select.disabled = true;
 	}
 }
 

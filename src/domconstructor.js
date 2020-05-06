@@ -56,10 +56,10 @@ export const generateElement = function (element, content, className = 'default-
 	return newElement;
 };
 
-export const generateResultWrapper = function (result, block, btn, interval) {
+export const generateResultWrapper = function (result, block, interval) {
 	let resultContainer = document.createElement('div');
 	resultContainer.classList.add('result-container');
-	btn.setAttribute('disabled', true);
+	block.startBtn.setAttribute('disabled', true);
 	if (result !== null) {
 		let secondPre = generateElement('div', 'секунды: ', 'pre_counter');
 		let secondDiv = generateElement('div', result.seconds, 'counter');
@@ -83,11 +83,14 @@ export const generateResultWrapper = function (result, block, btn, interval) {
 			mounthsPre,
 			mounthsDiv,
 		].forEach((el) => resultContainer.appendChild(el));
+		block.selectDays.disable();
+		block.selectMounths.disable();
+		block.yearInput.disabled = true;
 	} else {
 		clearInterval(interval);
 		setTimeout(() => {
-			block.textContent = '';
-			btn.removeAttribute('disabled');
+			block.wait.textContent = '';
+			block.startBtn.removeAttribute('disabled');
 		}, 1300);
 		resultContainer.textContent = 'пора отпустить прошлое!';
 	}
