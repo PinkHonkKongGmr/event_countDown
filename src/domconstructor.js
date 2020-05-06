@@ -2,6 +2,7 @@ import selectActions from './selectActions';
 import Year from './year';
 
 export const generateSelectorBlock = function () {
+	const yearInstance = new Year().year;
 	const wrapper = document.createElement('div');
 	const startBtn = document.createElement('button');
 	startBtn.classList.add('btn', 'btn-primary');
@@ -9,7 +10,7 @@ export const generateSelectorBlock = function () {
 	const yearInput = document.createElement('input');
 	yearInput.classList.add('form-control');
 	yearInput.setAttribute('type', 'number');
-	yearInput.value = Year.year;
+	yearInput.value = yearInstance.year;
 
 	const wait = document.createElement('div');
 
@@ -24,7 +25,7 @@ export const generateSelectorBlock = function () {
 	wrapper.classList.add('form-group');
 	[dayWrapper, mounthWrapper, yearInput, startBtn, wait].forEach((child) => wrapper.appendChild(child));
 
-	return { selectDays, selectMounths, yearInput, startBtn, wait, wrapper };
+	return { yearInstance, selectDays, selectMounths, yearInput, startBtn, wait, wrapper };
 };
 
 export const generateSelector = function (disableStatus) {

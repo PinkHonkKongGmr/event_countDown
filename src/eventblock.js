@@ -1,5 +1,4 @@
 import Mounths from './mounths';
-import Year from './year';
 import { arrayCreator } from './helpers';
 import { generateSelectorBlock } from './domconstructor';
 import CountDown from './countdown';
@@ -11,13 +10,15 @@ function EventBlock() {
 
 		const renderDays = (val) => {
 			if (val.length > 0) {
-				Block.selectDays.addOptions(arrayCreator(Mounths.getMounth(val).daysPerMounth(Year.leap)));
+				Block.selectDays.addOptions(
+					arrayCreator(Mounths.getMounth(val).daysPerMounth(Block.yearInstance.leap))
+				);
 				Block.selectDays.switchDisable();
 			}
 		};
 
 		Block.yearInput.addEventListener('input', (e) => {
-			Year.year = e.target.value;
+			Block.yearInstance.year = e.target.value;
 			renderDays(Block.selectMounths.getInstance().value);
 		});
 
@@ -29,7 +30,7 @@ function EventBlock() {
 			let cd = new CountDown(
 				Block.selectDays.getInstance().value,
 				Mounths.getKey(Block.selectMounths.getInstance().value),
-				Year.year
+				block.yearInstance.year
 			);
 
 			setInterval(() => {
