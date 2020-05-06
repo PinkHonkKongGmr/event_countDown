@@ -30,7 +30,7 @@ function EventBlock() {
 			let cd = new CountDown(
 				Block.selectDays.getInstance().value,
 				Mounths.getKey(Block.selectMounths.getInstance().value),
-				block.yearInstance.year
+				Block.yearInstance.year
 			);
 
 			setInterval(() => {
