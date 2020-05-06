@@ -46,6 +46,7 @@ function EventBlock() {
 	};
 
 	this.deleteBlock = (deleteFunction) => {
+		// удалить eventlisteners
 		Block.removeBtn.addEventListener('click', (e) => {
 			e.preventDefault();
 			if (interval !== null) {
