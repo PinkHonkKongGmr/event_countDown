@@ -42,14 +42,12 @@ const timeFormatter = (ms) => {
 	}
 };
 
-const result = (ms) =>
-	Object.entries(timeFormatter(ms))
-		.join(',')
-		.replace(/seconds/, 'секунды')
-		.replace(/minutes/, 'минуты')
-		.replace(/days/, 'дни')
-		.replace(/hours/, 'часы')
-		.replace(/mounths/, 'месяцы')
-		.replace(/,/gi, ': ');
+const result = (ms) => {
+	if (ms < 0) {
+		return null;
+	} else {
+		return timeFormatter(ms);
+	}
+};
 
 export default result;

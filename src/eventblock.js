@@ -1,6 +1,6 @@
 import Mounths from './mounths';
 import { arrayCreator } from './helpers';
-import { generateSelectorBlock } from './domconstructor';
+import { generateSelectorBlock, generateResultWrapper } from './domconstructor';
 import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
 
@@ -33,8 +33,13 @@ function EventBlock() {
 				Block.yearInstance.year
 			);
 
-			setInterval(() => {
-				Block.wait.innerText = timeFormatter(cd.getDate());
+			let int = setInterval(() => {
+				Block.wait.innerText = generateResultWrapper(
+					timeFormatter(cd.getDate()),
+					Block.wait,
+					Block.startBtn,
+					int
+				);
 			}, 100);
 		});
 

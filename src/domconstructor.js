@@ -50,3 +50,19 @@ export const generateOptions = function (option, content) {
 	newElement.textContent = content;
 	return newElement;
 };
+
+export const generateResultWrapper = function (result, block, btn, interval) {
+	btn.setAttribute('disabled', true);
+	if (result !== null) {
+		let resultContainer = document.createElement('div');
+		positiveResult.textContent = 'урра';
+		return positiveResult;
+	} else {
+		setTimeout(() => {
+			block.textContent = '';
+			btn.removeAttribute('disabled');
+			clearInterval(interval);
+		}, 1300);
+		return 'пора попрощаться с прошлым!';
+	}
+};
