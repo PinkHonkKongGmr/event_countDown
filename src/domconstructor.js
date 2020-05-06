@@ -15,7 +15,7 @@ export const generateSelectorBlock = function () {
 	removeBtn.classList.add('btn', 'btn-primary');
 	removeBtn.textContent = 'Удолить';
 
-	const wait = document.createElement('div');
+	const wait = generateElement('div', '', 'result');
 
 	const selectDays = new selectActions(generateSelector('disabled'));
 	const selectMounths = new selectActions(generateSelector('enabled'));

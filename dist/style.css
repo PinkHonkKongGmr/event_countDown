@@ -44,3 +44,13 @@
 .left {
     margin-right: 5px;
 }
+
+.result-container {
+    display: flex;
+    align-items: center;
+}
+
+.result {
+    display: flex;
+    align-items: center;
+}
