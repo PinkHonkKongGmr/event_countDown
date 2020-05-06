@@ -5,6 +5,7 @@ import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
 
 function EventBlock() {
+	this.interval = null;
 	this.createBlock = () => {
 		const Block = generateSelectorBlock();
 
@@ -33,12 +34,12 @@ function EventBlock() {
 				Block.yearInstance.year
 			);
 
-			let int = setInterval(() => {
+			this.interval = setInterval(() => {
 				Block.wait.innerText = generateResultWrapper(
 					timeFormatter(cd.getDate()),
 					Block.wait,
 					Block.startBtn,
-					int
+					this.interval
 				);
 			}, 100);
 		});
