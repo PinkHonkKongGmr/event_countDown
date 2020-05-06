@@ -10,7 +10,6 @@ class selectActions {
 	}
 
 	clearContent() {
-		console.log('clreared');
 		this.select.innerHTML = '';
 	}
 
