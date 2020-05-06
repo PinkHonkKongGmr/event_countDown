@@ -19,7 +19,7 @@ const timeFormatter = (ms) => {
 			} else {
 				days = Math.floor(hours / 24);
 				hours = hours - days * 24;
-				if (days / 30.5) {
+				if (days < 30.5) {
 					return {
 						seconds,
 						minutes,
@@ -29,7 +29,7 @@ const timeFormatter = (ms) => {
 					};
 				} else {
 					mounths = Math.floor(days / 30.5);
-					days = days - mounths * 30.5;
+					days = Math.floor(days - mounths * 30.5);
 					return {
 						seconds,
 						minutes,
