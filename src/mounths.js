@@ -34,7 +34,7 @@ class Mounths {
 				daysPerMounth: () => 31,
 			},
 			September: {
-				name: 'Сентябрь горит',
+				name: 'Сентябрь',
 				daysPerMounth: () => 30,
 			},
 			October: {

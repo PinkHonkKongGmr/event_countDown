@@ -27,3 +27,20 @@
     padding-right: 6px;
     border-right: 1px solid rgb(48, 48, 199);
 }
+
+.hide {
+    display: none;
+}
+
+.do {
+    margin-right: 5px;
+}
+
+.data {
+    margin-right: 5px;
+    color: rgb(48, 48, 199);
+}
+
+.left {
+    margin-right: 5px;
+}

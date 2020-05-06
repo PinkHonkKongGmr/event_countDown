@@ -71,7 +71,19 @@ export const generateResultWrapper = function (result, block, interval) {
 		let daysDiv = generateElement('div', result.days, 'counter');
 		let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
 		let mounthsDiv = generateElement('div', result.mounths, 'counter');
+		let dodiv = generateElement('div', 'До', 'do');
+		let date = generateElement(
+			'div',
+			`${block.selectDays.getInstance().value} ${block.selectMounths
+				.getInstance()
+				.value.substring(0, block.selectMounths.getInstance().value.length - 1)}я ${block.yearInput.value}`,
+			'data'
+		);
+		let left = generateElement('div', 'осталось:', 'left');
 		[
+			dodiv,
+			date,
+			left,
 			secondPre,
 			secondDiv,
 			minutesPre,
@@ -83,9 +95,10 @@ export const generateResultWrapper = function (result, block, interval) {
 			mounthsPre,
 			mounthsDiv,
 		].forEach((el) => resultContainer.appendChild(el));
-		block.selectDays.disable();
-		block.selectMounths.disable();
-		block.yearInput.disabled = true;
+		block.selectDays.getInstance().classList.add('hide');
+		block.selectMounths.getInstance().classList.add('hide');
+		block.yearInput.classList.add('hide');
+		block.startBtn.classList.add('hide');
 	} else {
 		clearInterval(interval);
 		setTimeout(() => {
