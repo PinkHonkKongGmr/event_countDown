@@ -19,8 +19,11 @@ function EventBlock() {
 		};
 
 		Block.yearInput.addEventListener('input', (e) => {
-			Block.yearInstance.year = e.target.value;
-			renderDays(Block.selectMounths.getInstance().value);
+			console.log(e.target.value);
+			if (!e.target.value.match(/[^0-9]/)) {
+				Block.yearInstance.year = e.target.value;
+				renderDays(Block.selectMounths.getInstance().value);
+			}
 		});
 
 		Block.selectMounths.getInstance().addEventListener('change', (e) => renderDays(e.target.value));
