@@ -1,4 +1,4 @@
-import { generateOptions } from './helpers';
+import { generateOptions } from './domconstructor';
 
 class selectActions {
 	constructor(selector) {
