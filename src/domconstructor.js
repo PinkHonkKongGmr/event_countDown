@@ -56,10 +56,10 @@ export const generateElement = function (element, content, className = 'default-
 	return newElement;
 };
 
-export const generateResultWrapper = function (result, block, btn, interval) {
+export const generateResultWrapper = function (result, block, interval) {
 	let resultContainer = document.createElement('div');
 	resultContainer.classList.add('result-container');
-	btn.setAttribute('disabled', true);
+	block.startBtn.setAttribute('disabled', true);
 	if (result !== null) {
 		let secondPre = generateElement('div', 'секунды: ', 'pre_counter');
 		let secondDiv = generateElement('div', result.seconds, 'counter');
@@ -71,7 +71,19 @@ export const generateResultWrapper = function (result, block, btn, interval) {
 		let daysDiv = generateElement('div', result.days, 'counter');
 		let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
 		let mounthsDiv = generateElement('div', result.mounths, 'counter');
+		let dodiv = generateElement('div', 'До', 'do');
+		let date = generateElement(
+			'div',
+			`${block.selectDays.getInstance().value} ${block.selectMounths
+				.getInstance()
+				.value.substring(0, block.selectMounths.getInstance().value.length - 1)}я ${block.yearInput.value}`,
+			'data'
+		);
+		let left = generateElement('div', 'осталось:', 'left');
 		[
+			dodiv,
+			date,
+			left,
 			secondPre,
 			secondDiv,
 			minutesPre,
@@ -83,11 +95,15 @@ export const generateResultWrapper = function (result, block, btn, interval) {
 			mounthsPre,
 			mounthsDiv,
 		].forEach((el) => resultContainer.appendChild(el));
+		block.selectDays.getInstance().classList.add('hide');
+		block.selectMounths.getInstance().classList.add('hide');
+		block.yearInput.classList.add('hide');
+		block.startBtn.classList.add('hide');
 	} else {
 		clearInterval(interval);
 		setTimeout(() => {
-			block.textContent = '';
-			btn.removeAttribute('disabled');
+			block.wait.textContent = '';
+			block.startBtn.removeAttribute('disabled');
 		}, 1300);
 		resultContainer.textContent = 'пора отпустить прошлое!';
 	}

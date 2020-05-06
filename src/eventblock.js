@@ -10,16 +10,19 @@ function EventBlock() {
 	this.createBlock = () => {
 		const renderDays = (val) => {
 			if (val.length > 0) {
+				Block.selectDays.clearContent();
 				Block.selectDays.addOptions(
 					arrayCreator(Mounths.getMounth(val).daysPerMounth(Block.yearInstance.leap))
 				);
-				Block.selectDays.switchDisable();
+				Block.selectDays.enable();
 			}
 		};
 
 		Block.yearInput.addEventListener('input', (e) => {
-			Block.yearInstance.year = e.target.value;
-			renderDays(Block.selectMounths.getInstance().value);
+			if (!e.target.value.match(/[^0-9]/)) {
+				Block.yearInstance.year = e.target.value;
+				renderDays(Block.selectMounths.getInstance().value);
+			}
 		});
 
 		Block.selectMounths.getInstance().addEventListener('change', (e) => renderDays(e.target.value));
@@ -36,9 +39,7 @@ function EventBlock() {
 			interval = setInterval(() => {
 				// для того, чтобы мы могли стилизовать вывод красиво
 				Block.wait.innerHTML = '';
-				Block.wait.appendChild(
-					generateResultWrapper(timeFormatter(cd.getDate()), Block.wait, Block.startBtn, interval)
-				);
+				Block.wait.appendChild(generateResultWrapper(timeFormatter(cd.getDate()), Block, interval));
 			}, 100);
 		});
 
