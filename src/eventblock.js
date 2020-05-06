@@ -10,6 +10,7 @@ function EventBlock() {
 	this.createBlock = () => {
 		const renderDays = (val) => {
 			if (val.length > 0) {
+				Block.selectDays.clearContent();
 				Block.selectDays.addOptions(
 					arrayCreator(Mounths.getMounth(val).daysPerMounth(Block.yearInstance.leap))
 				);
