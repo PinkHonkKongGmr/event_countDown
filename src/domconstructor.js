@@ -11,6 +11,10 @@ export const generateSelectorBlock = function () {
 	startBtn.classList.add('btn', 'btn-primary');
 	startBtn.textContent = 'Запуск';
 
+	const removeBtn = document.createElement('button');
+	removeBtn.classList.add('btn', 'btn-primary');
+	removeBtn.textContent = 'Удолить';
+
 	const wait = document.createElement('div');
 
 	const selectDays = new selectActions(generateSelector('disabled'));
@@ -33,9 +37,9 @@ export const generateSelectorBlock = function () {
 	yearWrapper.classList.add('form-group', 'col-md-3');
 	yearWrapper.appendChild(yearInput);
 
-	[dayWrapper, mounthWrapper, yearWrapper, startBtn, wait].forEach((child) => wrapper.appendChild(child));
+	[dayWrapper, mounthWrapper, yearWrapper, startBtn, removeBtn, wait].forEach((child) => wrapper.appendChild(child));
 
-	return { yearInstance, selectDays, selectMounths, yearInput, startBtn, wait, wrapper };
+	return { yearInstance, selectDays, selectMounths, yearInput, startBtn, removeBtn, wait, wrapper };
 };
 
 export const generateSelector = function (disableStatus) {
@@ -52,17 +56,17 @@ export const generateOptions = function (option, content) {
 };
 
 export const generateResultWrapper = function (result, block, btn, interval) {
+	let resultContainer = document.createElement('div');
 	btn.setAttribute('disabled', true);
 	if (result !== null) {
-		let resultContainer = document.createElement('div');
-		positiveResult.textContent = 'урра';
-		return positiveResult;
+		resultContainer.textContent = result.seconds;
 	} else {
 		clearInterval(interval);
 		setTimeout(() => {
 			block.textContent = '';
 			btn.removeAttribute('disabled');
 		}, 1300);
-		return 'пора отпустить прошлое!';
+		resultContainer.textContent = 'пора отпустить прошлое!';
 	}
+	return resultContainer;
 };

@@ -5,10 +5,9 @@ import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
 
 function EventBlock() {
-	this.interval = null;
+	let interval = null;
+	const Block = generateSelectorBlock();
 	this.createBlock = () => {
-		const Block = generateSelectorBlock();
-
 		const renderDays = (val) => {
 			if (val.length > 0) {
 				Block.selectDays.addOptions(
@@ -34,17 +33,26 @@ function EventBlock() {
 				Block.yearInstance.year
 			);
 
-			this.interval = setInterval(() => {
-				Block.wait.innerText = generateResultWrapper(
-					timeFormatter(cd.getDate()),
-					Block.wait,
-					Block.startBtn,
-					this.interval
+			interval = setInterval(() => {
+				// для того, чтобы мы могли стилизовать вывод красиво
+				Block.wait.innerHTML = '';
+				Block.wait.appendChild(
+					generateResultWrapper(timeFormatter(cd.getDate()), Block.wait, Block.startBtn, interval)
 				);
 			}, 100);
 		});
 
 		return Block.wrapper;
+	};
+
+	this.deleteBlock = (deleteFunction) => {
+		Block.removeBtn.addEventListener('click', (e) => {
+			e.preventDefault();
+			if (interval !== null) {
+				clearInterval(interval);
+			}
+			deleteFunction();
+		});
 	};
 }
 
