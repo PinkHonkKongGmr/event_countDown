@@ -10,3 +10,20 @@
 .btn {
     margin-right: 20px;
 }
+
+.result-container {
+    display: flex;
+    align-items: center;
+}
+
+.pre_counter {
+    color: rgb(48, 48, 199);
+    margin-right: 6px;
+}
+
+.counter {
+    color: crimson;
+    margin-right: 5px;
+    padding-right: 6px;
+    border-right: 1px solid rgb(48, 48, 199);
+}

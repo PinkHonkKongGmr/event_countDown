@@ -49,17 +49,40 @@ export const generateSelector = function (disableStatus) {
 	return selectorDays;
 };
 
-export const generateOptions = function (option, content) {
-	let newElement = document.createElement(option);
+export const generateElement = function (element, content, className = 'default-class') {
+	let newElement = document.createElement(element);
+	newElement.classList.add(className);
 	newElement.textContent = content;
 	return newElement;
 };
 
 export const generateResultWrapper = function (result, block, btn, interval) {
 	let resultContainer = document.createElement('div');
+	resultContainer.classList.add('result-container');
 	btn.setAttribute('disabled', true);
 	if (result !== null) {
-		resultContainer.textContent = result.seconds;
+		let secondPre = generateElement('div', 'секунды: ', 'pre_counter');
+		let secondDiv = generateElement('div', result.seconds, 'counter');
+		let minutesPre = generateElement('div', 'минуты: ', 'pre_counter');
+		let minutesDiv = generateElement('div', result.minutes, 'counter');
+		let hoursPre = generateElement('div', 'часы: ', 'pre_counter');
+		let hoursDiv = generateElement('div', result.hours, 'counter');
+		let daysPre = generateElement('div', 'дни: ', 'pre_counter');
+		let daysDiv = generateElement('div', result.days, 'counter');
+		let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
+		let mounthsDiv = generateElement('div', result.mounths, 'counter');
+		[
+			secondPre,
+			secondDiv,
+			minutesPre,
+			minutesDiv,
+			hoursPre,
+			hoursDiv,
+			daysPre,
+			daysDiv,
+			mounthsPre,
+			mounthsDiv,
+		].forEach((el) => resultContainer.appendChild(el));
 	} else {
 		clearInterval(interval);
 		setTimeout(() => {

@@ -1,4 +1,4 @@
-import { generateOptions } from './domconstructor';
+import { generateElement } from './domconstructor';
 
 class selectActions {
 	constructor(selector) {
@@ -15,7 +15,7 @@ class selectActions {
 
 	addOptions(options) {
 		options.forEach((el) => {
-			this.select.appendChild(generateOptions('option', el));
+			this.select.appendChild(generateElement('option', el));
 		});
 	}
 
