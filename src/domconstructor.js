@@ -58,11 +58,11 @@ export const generateResultWrapper = function (result, block, btn, interval) {
 		positiveResult.textContent = 'урра';
 		return positiveResult;
 	} else {
+		clearInterval(interval);
 		setTimeout(() => {
 			block.textContent = '';
 			btn.removeAttribute('disabled');
-			clearInterval(interval);
 		}, 1300);
-		return 'пора попрощаться с прошлым!';
+		return 'пора отпустить прошлое!';
 	}
 };
