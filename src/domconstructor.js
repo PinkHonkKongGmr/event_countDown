@@ -1,10 +1,12 @@
 import selectActions from './selectActions';
 import Name from './name';
 import Year from './year';
+import Time from './time';
 
 export const generateSelectorBlock = function () {
 	const name = new Name().name;
 	const yearInstance = new Year().year;
+	const eventTime = new Time().eventTime;
 
 	const wrapper = document.createElement('div');
 	wrapper.classList.add('form-row', 'form-group', 'event-box');
@@ -58,17 +60,30 @@ export const generateSelectorBlock = function () {
 	yearWrapper.classList.add('form-group', 'col-md-3');
 	yearWrapper.appendChild(yearInput);
 
-	[nameWrapper, dayWrapper, mounthWrapper, yearWrapper].forEach((child) => fieldWrapper.appendChild(child));
+	const timeInput = document.createElement('input');
+	timeInput.classList.add('form-control');
+	timeInput.setAttribute('type', 'time');
+	timeInput.value = '00:00';
+
+	const timeWrapper = document.createElement('div');
+	yearWrapper.classList.add('form-group', 'col-md-3');
+	timeWrapper.appendChild(timeInput);
+
+	[nameWrapper, dayWrapper, mounthWrapper, yearWrapper, timeWrapper].forEach((child) =>
+		fieldWrapper.appendChild(child)
+	);
 	[fieldWrapper, startBtn, removeBtn, wait].forEach((child) => wrapper.appendChild(child));
 
 	return {
 		name,
+		eventTime,
 		fieldWrapper,
 		yearInstance,
 		selectDays,
 		selectMounths,
 		nameInput,
 		yearInput,
+		timeInput,
 		startBtn,
 		removeBtn,
 		wait,

@@ -35,6 +35,10 @@ function EventBlock() {
 			}
 		});
 
+		Block.timeInput.addEventListener('input', (e) => {
+			Block.eventTime.time = e.target.value;
+		});
+
 		Block.selectMounths.getInstance().addEventListener('change', (e) => activateController(e.target.value));
 		Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
 
@@ -43,7 +47,8 @@ function EventBlock() {
 			let cd = new CountDown(
 				Block.selectDays.getInstance().value,
 				Mounths.getKey(Block.selectMounths.getInstance().value),
-				Block.yearInstance.year
+				Block.yearInstance.year,
+				Block.eventTime.time
 			);
 
 			interval = setInterval(() => {
