@@ -1,6 +1,12 @@
 import Mounths from './mounths';
 import { arrayCreator } from './helpers';
-import { generateSelectorBlock, generateResultWrapper } from './domconstructor';
+import {
+	generateSelectorBlock,
+	disableBtn,
+	generateResultWrapper,
+	hideControlElements,
+	badResult,
+} from './domconstructor';
 import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
 import ResultDb from './resultDB';
@@ -68,16 +74,20 @@ function EventBlock() {
 
 		Block.startBtn.addEventListener('click', (e) => {
 			e.preventDefault();
+			disableBtn(Block);
 			let cd = new CountDown(resultDb);
 			if (timeFormatter(cd.getDifferance()) !== null) {
 				resultDb.date = cd.getDate();
 				localStorage.setItem('db', JSON.stringify(resultDb));
+				hideControlElements(Block);
+				interval = setInterval(() => {
+					// для того, чтобы мы могли стилизовать вывод красиво
+					Block.wait.innerHTML = '';
+					Block.wait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), Block, resultDb));
+				}, 100);
+			} else {
+				Block.wait.appendChild(badResult(Block));
 			}
-			interval = setInterval(() => {
-				// для того, чтобы мы могли стилизовать вывод красиво
-				Block.wait.innerHTML = '';
-				Block.wait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), Block, interval));
-			}, 100);
 		});
 
 		return Block.wrapper;
