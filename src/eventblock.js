@@ -14,9 +14,13 @@ function EventBlock() {
 				Block.selectDays.addOptions(
 					arrayCreator(Mounths.getMounth(val).daysPerMounth(Block.yearInstance.leap))
 				);
-				Block.selectDays.enable();
+				// решил сделать по дефолту доступным
+				// Block.selectDays.enable();
 			}
 		};
+
+		renderDays(Mounths.mounths.January.name);
+		// select.options  по индексу выдает undefined
 
 		const activateController = (days) => {
 			renderDays(days);
