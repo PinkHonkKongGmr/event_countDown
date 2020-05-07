@@ -14,8 +14,8 @@ const Time = function () {
 		get needTime() {
 			return this._needTime;
 		},
-		set needTime(a) {
-			return (this._needTime = true);
+		set needTime(needed) {
+			return (this._needTime = needed);
 		},
 	};
 	Object.defineProperties(this.eventTime, {

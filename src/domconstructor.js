@@ -63,13 +63,22 @@ export const generateSelectorBlock = function () {
 	const timeInput = document.createElement('input');
 	timeInput.classList.add('form-control');
 	timeInput.setAttribute('type', 'time');
+	timeInput.disabled = true;
+
 	timeInput.value = '00:00';
+
+	const needTimeController = generateElement('label', '', 'switch');
+	const needTimeCheckBox = document.createElement('input');
+	needTimeCheckBox.setAttribute('type', 'checkbox');
+	const needTimeSwitchSpan = generateElement('span', '', 'slider');
+	needTimeSwitchSpan.classList.add('round');
+	[needTimeCheckBox, needTimeSwitchSpan].forEach((el) => needTimeController.appendChild(el));
 
 	const timeWrapper = document.createElement('div');
 	yearWrapper.classList.add('form-group', 'col-md-3');
 	timeWrapper.appendChild(timeInput);
 
-	[nameWrapper, dayWrapper, mounthWrapper, yearWrapper, timeWrapper].forEach((child) =>
+	[nameWrapper, dayWrapper, mounthWrapper, yearWrapper, timeWrapper, needTimeController].forEach((child) =>
 		fieldWrapper.appendChild(child)
 	);
 	[fieldWrapper, startBtn, removeBtn, wait].forEach((child) => wrapper.appendChild(child));
@@ -84,6 +93,7 @@ export const generateSelectorBlock = function () {
 		nameInput,
 		yearInput,
 		timeInput,
+		needTimeCheckBox,
 		startBtn,
 		removeBtn,
 		wait,

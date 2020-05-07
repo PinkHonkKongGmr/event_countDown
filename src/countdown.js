@@ -5,7 +5,6 @@ class CountDown {
 		this.yearValue = yearValue;
 		this.timeValue = timeValue;
 		this.date = new Date(`${this.dayValue} ${this.mounthValue} ${this.yearValue} ${this.timeValue}`);
-		console.log(`${this.dayValue} ${this.mounthValue} ${this.yearValue} ${this.timeValue}`);
 	}
 	getDate() {
 		return this.date - Date.now();
