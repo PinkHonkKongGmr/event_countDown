@@ -117,7 +117,7 @@ export const disableBtn = function (block) {
 	block.startBtn.setAttribute('disabled', true);
 };
 
-export const generateResultWrapper = function (result, block, rdb) {
+export const generateResultWrapper = function (result, rdb) {
 	let resultContainer = document.createElement('div');
 	resultContainer.classList.add('result-container');
 
@@ -141,7 +141,7 @@ export const generateResultWrapper = function (result, block, rdb) {
 	);
 	let left = generateElement('div', 'осталось:', 'left');
 
-	if (!block.eventTime.needTime) {
+	if (!rdb.needTime) {
 		timebox.classList.add('hide');
 	}
 	[

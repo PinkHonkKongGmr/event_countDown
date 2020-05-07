@@ -55,6 +55,7 @@ function EventBlock() {
 		Block.needTimeCheckBox.addEventListener('change', () => {
 			Block.timeInput.disabled = !Block.timeInput.disabled;
 			Block.eventTime.needTime = !Block.eventTime.needTime;
+			resultDb.needTime = Block.eventTime.needTime;
 		});
 
 		Block.selectDays.getInstance().addEventListener('change', (e) => (resultDb.day = e.target.value));
@@ -77,7 +78,7 @@ function EventBlock() {
 				interval = setInterval(() => {
 					// для того, чтобы мы могли стилизовать вывод красиво
 					Block.wait.innerHTML = '';
-					Block.wait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), Block, resultDb));
+					Block.wait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), resultDb));
 				}, 100);
 			} else {
 				Block.wait.appendChild(badResult(Block));

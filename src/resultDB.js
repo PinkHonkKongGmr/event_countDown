@@ -7,6 +7,7 @@ const ResultDb = function () {
 		year: new Date().getUTCFullYear(),
 		name: null,
 		time: '00:00',
+		needTime: false,
 	};
 };
 
