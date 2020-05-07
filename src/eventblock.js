@@ -40,6 +40,11 @@ function EventBlock() {
 			Block.eventTime.needTime = true;
 		});
 
+		Block.needTimeCheckBox.addEventListener('change', () => {
+			Block.timeInput.disabled = !Block.timeInput.disabled;
+			Block.eventTime.needTime = !Block.eventTime.needTime;
+		});
+
 		Block.selectMounths.getInstance().addEventListener('change', (e) => activateController(e.target.value));
 		Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
 
