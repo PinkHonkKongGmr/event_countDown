@@ -121,6 +121,7 @@ export const generateResultWrapper = function (result, block, interval) {
 		let daysDiv = generateElement('div', result.days, 'counter');
 		let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
 		let mounthsDiv = generateElement('div', result.mounths, 'counter');
+		let timebox = generateElement('div', block.eventTime.time, 'time');
 		let eventNameBox = generateElement('div', block.name.eventName, 'event_name');
 		let dodiv = generateElement('div', 'До события', 'do');
 		let date = generateElement(
@@ -131,10 +132,15 @@ export const generateResultWrapper = function (result, block, interval) {
 			'data'
 		);
 		let left = generateElement('div', 'осталось:', 'left');
+
+		if (!block.eventTime.needTime) {
+			timebox.classList.add('hide');
+		}
 		[
 			dodiv,
 			eventNameBox,
 			date,
+			timebox,
 			left,
 			secondPre,
 			secondDiv,

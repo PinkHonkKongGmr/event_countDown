@@ -10,10 +10,23 @@ const Time = function () {
 		get time() {
 			return this._time;
 		},
+
+		get needTime() {
+			return this._needTime;
+		},
+		set needTime(a) {
+			return (this._needTime = true);
+		},
 	};
-	Object.defineProperty(this.eventTime, '_time', {
-		value: '00:00',
-		writable: true,
+	Object.defineProperties(this.eventTime, {
+		_time: {
+			value: '00:00',
+			writable: true,
+		},
+		_needTime: {
+			value: false,
+			writable: true,
+		},
 	});
 };
 

@@ -37,6 +37,7 @@ function EventBlock() {
 
 		Block.timeInput.addEventListener('input', (e) => {
 			Block.eventTime.time = e.target.value;
+			Block.eventTime.needTime = true;
 		});
 
 		Block.selectMounths.getInstance().addEventListener('change', (e) => activateController(e.target.value));
