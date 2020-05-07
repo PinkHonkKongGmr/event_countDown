@@ -3,8 +3,10 @@ import { arrayCreator } from './helpers';
 import { generateSelectorBlock, generateResultWrapper } from './domconstructor';
 import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
+import ResultDb from './resultDB';
 
 function EventBlock() {
+	let resultDb = new ResultDb().db;
 	let interval = null;
 	const Block = generateSelectorBlock();
 	this.createBlock = () => {
@@ -54,13 +56,15 @@ function EventBlock() {
 
 		Block.startBtn.addEventListener('click', (e) => {
 			e.preventDefault();
-			let cd = new CountDown(
-				Block.selectDays.getInstance().value,
-				Mounths.getKey(Block.selectMounths.getInstance().value),
-				Block.yearInstance.year,
-				Block.eventTime.time
-			);
-
+			resultDb.day = Block.selectDays.getInstance().value;
+			resultDb.mounth = Mounths.getKey(Block.selectMounths.getInstance().value);
+			resultDb.year = Block.yearInstance.year;
+			resultDb.time = Block.eventTime.time;
+			resultDb.name = Block.name.eventName;
+			let cd = new CountDown(resultDb);
+			if (timeFormatter(cd.getDate()) !== null) {
+				localStorage.setItem('db', JSON.stringify(resultDb));
+			}
 			interval = setInterval(() => {
 				// для того, чтобы мы могли стилизовать вывод красиво
 				Block.wait.innerHTML = '';
