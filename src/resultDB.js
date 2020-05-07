@@ -1,11 +1,12 @@
 const ResultDb = function () {
 	this.db = {
 		date: null,
-		day: null,
-		mounth: null,
-		year: null,
+		day: 1,
+		mounthKey: 'January',
+		mounth: 'Январь',
+		year: new Date().getUTCFullYear(),
 		name: null,
-		time: null,
+		time: '00:00',
 	};
 };
 

@@ -31,18 +31,21 @@ function EventBlock() {
 
 		Block.nameInput.addEventListener('input', (e) => {
 			Block.name.eventName = e.target.value.trim();
+			resultDb.name = Block.name.eventName;
 			Block.startBtnEnableController();
 		});
 
 		Block.yearInput.addEventListener('input', (e) => {
 			if (!e.target.value.match(/[^0-9]/)) {
 				Block.yearInstance.year = e.target.value.trim();
+				resultDb.year = Block.yearInstance.year;
 				activateController(Block.selectMounths.getInstance().value);
 			}
 		});
 
 		Block.timeInput.addEventListener('input', (e) => {
 			Block.eventTime.time = e.target.value;
+			resultDb.time = Block.eventTime.time;
 			Block.eventTime.needTime = true;
 		});
 
@@ -51,24 +54,26 @@ function EventBlock() {
 			Block.eventTime.needTime = !Block.eventTime.needTime;
 		});
 
-		Block.selectMounths.getInstance().addEventListener('change', (e) => activateController(e.target.value));
+		Block.selectDays.getInstance().addEventListener('change', (e) => (resultDb.day = e.target.value));
+
+		Block.selectMounths.getInstance().addEventListener('change', (e) => {
+			resultDb.mounth = e.target.value;
+			resultDb.mounthKey = Mounths.getKey(e.target.value);
+			activateController(e.target.value);
+		});
 		Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
 
 		Block.startBtn.addEventListener('click', (e) => {
 			e.preventDefault();
-			resultDb.day = Block.selectDays.getInstance().value;
-			resultDb.mounth = Mounths.getKey(Block.selectMounths.getInstance().value);
-			resultDb.year = Block.yearInstance.year;
-			resultDb.time = Block.eventTime.time;
-			resultDb.name = Block.name.eventName;
 			let cd = new CountDown(resultDb);
-			if (timeFormatter(cd.getDate()) !== null) {
+			if (timeFormatter(cd.getDifferance()) !== null) {
+				resultDb.date = cd.getDate();
 				localStorage.setItem('db', JSON.stringify(resultDb));
 			}
 			interval = setInterval(() => {
 				// для того, чтобы мы могли стилизовать вывод красиво
 				Block.wait.innerHTML = '';
-				Block.wait.appendChild(generateResultWrapper(timeFormatter(cd.getDate()), Block, interval));
+				Block.wait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), Block, interval));
 			}, 100);
 		});
 
