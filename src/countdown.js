@@ -5,7 +5,6 @@ class CountDown {
 		this.yearValue = rdb.year;
 		this.timeValue = rdb.time;
 		this.date = new Date(`${this.dayValue} ${this.mounthValue} ${this.yearValue} ${this.timeValue}`);
-		console.log(`${this.dayValue} ${this.mounthValue} ${this.yearValue} ${this.timeValue}`);
 	}
 	getDifferance() {
 		return this.date - Date.now();
