@@ -1,21 +1,44 @@
 import selectActions from './selectActions';
+import Name from './name';
 import Year from './year';
+import Time from './time';
 
 export const generateSelectorBlock = function () {
+	const name = new Name().name;
 	const yearInstance = new Year().year;
+	const eventTime = new Time().eventTime;
 
 	const wrapper = document.createElement('div');
-	wrapper.classList.add('form-row', 'form-group');
+	wrapper.classList.add('form-row', 'form-group', 'event-box');
 
 	const startBtn = document.createElement('button');
 	startBtn.classList.add('btn', 'btn-primary');
 	startBtn.textContent = 'Запуск';
+	startBtn.disabled = true;
+
+	const startBtnEnableController = () => {
+		if (nameInput.value.trim().length > 0 && selectDays.getInstance().value.length > 0) {
+			startBtn.disabled = false;
+		} else {
+			startBtn.disabled = true;
+		}
+	};
 
 	const removeBtn = document.createElement('button');
 	removeBtn.classList.add('btn', 'btn-primary');
 	removeBtn.textContent = 'Удолить';
 
-	const wait = document.createElement('div');
+	const wait = generateElement('div', '', 'result');
+
+	const nameInput = document.createElement('input');
+	nameInput.classList.add('form-control');
+
+	const fieldWrapper = generateElement('div', '', 'feildset-custom');
+	fieldWrapper.classList.add('form-row', 'form-group');
+
+	const nameWrapper = generateElement('div', 'Название события');
+	nameWrapper.classList.add('form-group', 'col-md-12');
+	nameWrapper.appendChild(nameInput);
 
 	const selectDays = new selectActions(generateSelector('disabled'));
 	const selectMounths = new selectActions(generateSelector('enabled'));
@@ -37,9 +60,36 @@ export const generateSelectorBlock = function () {
 	yearWrapper.classList.add('form-group', 'col-md-3');
 	yearWrapper.appendChild(yearInput);
 
-	[dayWrapper, mounthWrapper, yearWrapper, startBtn, removeBtn, wait].forEach((child) => wrapper.appendChild(child));
+	const timeInput = document.createElement('input');
+	timeInput.classList.add('form-control');
+	timeInput.setAttribute('type', 'time');
+	timeInput.value = '00:00';
 
-	return { yearInstance, selectDays, selectMounths, yearInput, startBtn, removeBtn, wait, wrapper };
+	const timeWrapper = document.createElement('div');
+	yearWrapper.classList.add('form-group', 'col-md-3');
+	timeWrapper.appendChild(timeInput);
+
+	[nameWrapper, dayWrapper, mounthWrapper, yearWrapper, timeWrapper].forEach((child) =>
+		fieldWrapper.appendChild(child)
+	);
+	[fieldWrapper, startBtn, removeBtn, wait].forEach((child) => wrapper.appendChild(child));
+
+	return {
+		name,
+		eventTime,
+		fieldWrapper,
+		yearInstance,
+		selectDays,
+		selectMounths,
+		nameInput,
+		yearInput,
+		timeInput,
+		startBtn,
+		removeBtn,
+		wait,
+		wrapper,
+		startBtnEnableController,
+	};
 };
 
 export const generateSelector = function (disableStatus) {
@@ -71,7 +121,9 @@ export const generateResultWrapper = function (result, block, interval) {
 		let daysDiv = generateElement('div', result.days, 'counter');
 		let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
 		let mounthsDiv = generateElement('div', result.mounths, 'counter');
-		let dodiv = generateElement('div', 'До', 'do');
+		let timebox = generateElement('div', block.eventTime.time, 'time');
+		let eventNameBox = generateElement('div', block.name.eventName, 'event_name');
+		let dodiv = generateElement('div', 'До события', 'do');
 		let date = generateElement(
 			'div',
 			`${block.selectDays.getInstance().value} ${block.selectMounths
@@ -80,9 +132,15 @@ export const generateResultWrapper = function (result, block, interval) {
 			'data'
 		);
 		let left = generateElement('div', 'осталось:', 'left');
+
+		if (!block.eventTime.needTime) {
+			timebox.classList.add('hide');
+		}
 		[
 			dodiv,
+			eventNameBox,
 			date,
+			timebox,
 			left,
 			secondPre,
 			secondDiv,
@@ -95,10 +153,8 @@ export const generateResultWrapper = function (result, block, interval) {
 			mounthsPre,
 			mounthsDiv,
 		].forEach((el) => resultContainer.appendChild(el));
-		block.selectDays.getInstance().classList.add('hide');
-		block.selectMounths.getInstance().classList.add('hide');
-		block.yearInput.classList.add('hide');
-		block.startBtn.classList.add('hide');
+
+		[block.fieldWrapper, block.startBtn].forEach((el) => el.classList.add('hide'));
 	} else {
 		clearInterval(interval);
 		setTimeout(() => {
