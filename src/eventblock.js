@@ -1,12 +1,6 @@
 import Mounths from './mounths';
 import { arrayCreator } from './helpers';
-import {
-	generateSelectorBlock,
-	disableBtn,
-	generateResultWrapper,
-	hideControlElements,
-	badResult,
-} from './domconstructor';
+import { generateSelectorBlock, disableBtn, generateResultWrapper, hideControlElements, badResult } from './domlib';
 import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
 import ResultDb from './resultDB';
