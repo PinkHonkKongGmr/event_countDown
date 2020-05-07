@@ -18,14 +18,24 @@ function EventBlock() {
 			}
 		};
 
+		const activateController = (days) => {
+			renderDays(days);
+			Block.startBtnEnableController();
+		};
+
+		Block.nameInput.addEventListener('input', (e) => {
+			Block.name.eventName = e.target.value.trim();
+			Block.startBtnEnableController();
+		});
+
 		Block.yearInput.addEventListener('input', (e) => {
 			if (!e.target.value.match(/[^0-9]/)) {
-				Block.yearInstance.year = e.target.value;
-				renderDays(Block.selectMounths.getInstance().value);
+				Block.yearInstance.year = e.target.value.trim();
+				activateController(Block.selectMounths.getInstance().value);
 			}
 		});
 
-		Block.selectMounths.getInstance().addEventListener('change', (e) => renderDays(e.target.value));
+		Block.selectMounths.getInstance().addEventListener('change', (e) => activateController(e.target.value));
 		Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
 
 		Block.startBtn.addEventListener('click', (e) => {
