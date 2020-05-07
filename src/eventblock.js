@@ -75,10 +75,11 @@ function EventBlock() {
 				resultDb.date = cd.getDate();
 				localStorage.setItem('db', JSON.stringify(resultDb));
 				hideControlElements(Block);
+				let resultWrapper = generateResultWrapper(timeFormatter(cd.getDifferance()), resultDb);
 				interval = setInterval(() => {
 					// для того, чтобы мы могли стилизовать вывод красиво
 					Block.wait.innerHTML = '';
-					Block.wait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), resultDb));
+					Block.wait.appendChild(resultWrapper);
 				}, 100);
 			} else {
 				Block.wait.appendChild(badResult(Block));
