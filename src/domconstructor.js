@@ -36,11 +36,11 @@ export const generateSelectorBlock = function () {
 	const fieldWrapper = generateElement('div', '', 'feildset-custom');
 	fieldWrapper.classList.add('form-row', 'form-group');
 
-	const nameWrapper = generateElement('div', 'Название события');
+	const nameWrapper = generateElement('div', 'Название события', 'name_wrapper');
 	nameWrapper.classList.add('form-group', 'col-md-12');
 	nameWrapper.appendChild(nameInput);
 
-	const selectDays = new selectActions(generateSelector('disabled'));
+	const selectDays = new selectActions(generateSelector('enabled'));
 	const selectMounths = new selectActions(generateSelector('enabled'));
 
 	const dayWrapper = document.createElement('div');
