@@ -30,13 +30,14 @@ function EventBlock() {
 		};
 
 		Block.nameInput.addEventListener('input', (e) => {
-			Block.name.eventName = e.target.value.trim();
-			resultDb.name = Block.name.eventName;
+			resultDb.name = e.target.value.trim();
 			Block.startBtnEnableController();
 		});
 
 		Block.yearInput.addEventListener('input', (e) => {
 			if (!e.target.value.match(/[^0-9]/)) {
+				// объект с годом нужен для корректного выстраивания февраля
+				// там определяется сколько дней 28 или 29
 				Block.yearInstance.year = e.target.value.trim();
 				resultDb.year = Block.yearInstance.year;
 				activateController(Block.selectMounths.getInstance().value);
@@ -44,6 +45,8 @@ function EventBlock() {
 		});
 
 		Block.timeInput.addEventListener('input', (e) => {
+			// объект со временем предназначен на случай если пользователь переключит тогглер, но введет криво,
+			// кроме того там сеттер для определения вывода времени в итоге
 			Block.eventTime.time = e.target.value;
 			resultDb.time = Block.eventTime.time;
 			Block.eventTime.needTime = true;
