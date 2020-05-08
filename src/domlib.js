@@ -198,12 +198,13 @@ export const badResult = function (block) {
 
 export const generateLcWrapper = function () {
 	let wrapper = document.createElement('div');
+	wrapper.classList.add('form-row', 'form-group', 'event-box');
 	let deleteBtn = document.createElement('button');
 	deleteBtn.classList.add('btn', 'btn-primary');
 	deleteBtn.textContent = 'Удолить';
-	let leftToWait = document.createElement('div');
-	wrapper.appendChild(leftToWait);
+	const leftToWait = generateElement('div', '', 'result');
 	wrapper.appendChild(deleteBtn);
+	wrapper.appendChild(leftToWait);
 
 	return { wrapper, deleteBtn, leftToWait };
 };
