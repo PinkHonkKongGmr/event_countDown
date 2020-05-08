@@ -126,7 +126,7 @@ export const leftToWaitRenderer = function (leftToWait, cd, db) {
 	leftToWait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), db));
 	let interval = setInterval(() => {
 		if (db.date - Date.now() < 1100) {
-			leftToWait.innerHTML = `${db.name} настал`;
+			leftToWait.innerHTML = `Событие ${rdb.name} завершено`;
 			clearInterval(interval);
 			return;
 		}
