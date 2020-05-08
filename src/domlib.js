@@ -1,4 +1,9 @@
 import selectActions from './selectActions';
+import Mounths from './mounths';
+import timeFormatter from './timeFormatter';
+
+// эти переменные здесь потому что из них подтягиваются
+//  дефолтные значения для соответсвующих инпутов
 import Year from './year';
 import Time from './time';
 
@@ -26,7 +31,7 @@ export const generateSelectorBlock = function () {
 	removeBtn.classList.add('btn', 'btn-primary');
 	removeBtn.textContent = 'Удолить';
 
-	const wait = generateElement('div', '', 'result');
+	const leftToWait = generateElement('div', '', 'result');
 
 	const nameInput = document.createElement('input');
 	nameInput.classList.add('form-control');
@@ -63,7 +68,7 @@ export const generateSelectorBlock = function () {
 	timeInput.setAttribute('type', 'time');
 	timeInput.disabled = true;
 
-	timeInput.value = '00:00';
+	timeInput.value = eventTime.time;
 
 	const needTimeController = generateElement('label', '', 'switch');
 	const needTimeCheckBox = document.createElement('input');
@@ -79,7 +84,7 @@ export const generateSelectorBlock = function () {
 	[nameWrapper, dayWrapper, mounthWrapper, yearWrapper, timeWrapper, needTimeController].forEach((child) =>
 		fieldWrapper.appendChild(child)
 	);
-	[fieldWrapper, startBtn, removeBtn, wait].forEach((child) => wrapper.appendChild(child));
+	[fieldWrapper, startBtn, removeBtn, leftToWait].forEach((child) => wrapper.appendChild(child));
 
 	return {
 		eventTime,
@@ -93,7 +98,7 @@ export const generateSelectorBlock = function () {
 		needTimeCheckBox,
 		startBtn,
 		removeBtn,
-		wait,
+		leftToWait,
 		wrapper,
 		startBtnEnableController,
 	};
@@ -117,6 +122,15 @@ export const disableBtn = function (block) {
 	block.startBtn.setAttribute('disabled', true);
 };
 
+export const leftToWaitRenderer = function (leftToWait, cd, db) {
+	leftToWait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), db));
+	let interval = setInterval(() => {
+		leftToWait.innerHTML = '';
+		leftToWait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), db));
+	}, 1000);
+	return interval;
+};
+
 export const generateResultWrapper = function (result, rdb) {
 	let resultContainer = document.createElement('div');
 	resultContainer.classList.add('result-container');
@@ -136,7 +150,7 @@ export const generateResultWrapper = function (result, rdb) {
 	let dodiv = generateElement('div', 'До события', 'do');
 	let date = generateElement(
 		'div',
-		`${rdb.day} ${rdb.mounth.substring(0, rdb.mounth.length - 1)}я ${rdb.year}`,
+		`${rdb.day} ${Mounths.mounths[`${Mounths.getKey(rdb.mounth)}`].genetive}  ${rdb.year}`,
 		'data'
 	);
 	let left = generateElement('div', 'осталось:', 'left');
@@ -144,6 +158,7 @@ export const generateResultWrapper = function (result, rdb) {
 	if (!rdb.needTime) {
 		timebox.classList.add('hide');
 	}
+	// заменить foreach обычным циклом?ибо он тяжеловесный
 	[
 		dodiv,
 		eventNameBox,
@@ -173,10 +188,23 @@ export const badResult = function (block) {
 	let resultContainer = document.createElement('div');
 	resultContainer.classList.add('result-container');
 	setTimeout(() => {
-		block.wait.textContent = '';
+		block.leftToWait.textContent = '';
 		block.startBtn.removeAttribute('disabled');
 	}, 1300);
 	resultContainer.textContent = 'пора отпустить прошлое!';
 
 	return resultContainer;
+};
+
+export const generateLcWrapper = function () {
+	let wrapper = document.createElement('div');
+	wrapper.classList.add('form-row', 'form-group', 'event-box');
+	let deleteBtn = document.createElement('button');
+	deleteBtn.classList.add('btn', 'btn-primary');
+	deleteBtn.textContent = 'Удолить';
+	const leftToWait = generateElement('div', '', 'result');
+	wrapper.appendChild(deleteBtn);
+	wrapper.appendChild(leftToWait);
+
+	return { wrapper, deleteBtn, leftToWait };
 };

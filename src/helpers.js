@@ -5,3 +5,15 @@ export const arrayCreator = function (len) {
 	}
 	return arr;
 };
+
+export const putToLocalStorage = function (key, val) {
+	const obj = localStorage.getItem('__events__') ? JSON.parse(localStorage.getItem('__events__')) : {};
+	obj[key] = val;
+	localStorage.setItem('__events__', JSON.stringify(obj));
+};
+
+export const deletFromLocalStorage = function (key) {
+	const obj = localStorage.getItem('__events__') ? JSON.parse(localStorage.getItem('__events__')) : {};
+	delete obj[key];
+	localStorage.setItem('__events__', JSON.stringify(obj));
+};

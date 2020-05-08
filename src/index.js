@@ -1,17 +1,17 @@
 import EventBlock from './eventblock';
+import RenderEventBlockFromLocalStorage from './fromLocalStorage';
 
 const root = document.getElementById('root');
 const addBtn = document.getElementById('add');
-
-const deleteBlock = (block) => root.removeChild(block);
+const eventsInLocalStorage = JSON.parse(localStorage.getItem('__events__'));
 
 addBtn.addEventListener('click', (e) => {
 	e.preventDefault();
-	const eventBlock = new EventBlock();
+	const eventBlock = new EventBlock(root);
 	const newBlock = eventBlock.createBlock();
 	root.appendChild(newBlock);
-	const deleteBlockBind = deleteBlock.bind(null, newBlock);
-	eventBlock.deleteBlock(deleteBlockBind);
 });
 
-console.log(JSON.parse(localStorage.getItem('db')));
+for (let key in eventsInLocalStorage) {
+	root.appendChild(new RenderEventBlockFromLocalStorage(eventsInLocalStorage[key], root).render());
+}

@@ -1,14 +1,17 @@
 import Mounths from './mounths';
-import { arrayCreator } from './helpers';
-import { generateSelectorBlock, disableBtn, generateResultWrapper, hideControlElements, badResult } from './domlib';
+import { arrayCreator, putToLocalStorage, deletFromLocalStorage } from './helpers';
+import { generateSelectorBlock, disableBtn, leftToWaitRenderer, hideControlElements, badResult } from './domlib';
 import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
 import ResultDb from './resultDB';
+import uniqid from 'uniqid';
 
-function EventBlock() {
-	let resultDb = new ResultDb().db;
+function EventBlock(root) {
+	let key = uniqid();
 	let interval = null;
 	const Block = generateSelectorBlock();
+	let resultDb = new ResultDb(Block.eventTime.time).db;
+	resultDb.key = key;
 	this.createBlock = () => {
 		const renderDays = (val) => {
 			if (val.length > 0) {
@@ -72,32 +75,25 @@ function EventBlock() {
 			disableBtn(Block);
 			let cd = new CountDown(resultDb);
 			if (timeFormatter(cd.getDifferance()) !== null) {
-				resultDb.date = cd.getDate();
-				localStorage.setItem('db', JSON.stringify(resultDb));
+				putToLocalStorage(key, resultDb);
 				hideControlElements(Block);
-				let resultWrapper = generateResultWrapper(timeFormatter(cd.getDifferance()), resultDb);
-				interval = setInterval(() => {
-					// для того, чтобы мы могли стилизовать вывод красиво
-					Block.wait.innerHTML = '';
-					Block.wait.appendChild(resultWrapper);
-				}, 100);
+				interval = leftToWaitRenderer(Block.leftToWait, cd, resultDb);
 			} else {
-				Block.wait.appendChild(badResult(Block));
+				Block.leftToWait.appendChild(badResult(Block));
 			}
 		});
 
-		return Block.wrapper;
-	};
-
-	this.deleteBlock = (deleteFunction) => {
 		// удалить eventlisteners
 		Block.removeBtn.addEventListener('click', (e) => {
 			e.preventDefault();
 			if (interval !== null) {
 				clearInterval(interval);
 			}
-			deleteFunction();
+			root.removeChild(Block.wrapper);
+			deletFromLocalStorage(key);
 		});
+
+		return Block.wrapper;
 	};
 }
 
