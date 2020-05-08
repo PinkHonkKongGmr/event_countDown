@@ -3,6 +3,7 @@ import RenderEventBlockFromLocalStorage from './fromLocalStorage';
 
 const root = document.getElementById('root');
 const addBtn = document.getElementById('add');
+const eventsInLocalStorage = JSON.parse(localStorage.getItem('eventsTest2'));
 
 addBtn.addEventListener('click', (e) => {
 	e.preventDefault();
@@ -11,15 +12,6 @@ addBtn.addEventListener('click', (e) => {
 	root.appendChild(newBlock);
 });
 
-let renderEventBlockFromLocalStorage = new RenderEventBlockFromLocalStorage(
-	JSON.parse(localStorage.getItem('db')),
-	root
-);
-
-let renderEventBlockFromLocalStorage2 = new RenderEventBlockFromLocalStorage(
-	JSON.parse(localStorage.getItem('db')),
-	root
-);
-
-root.appendChild(renderEventBlockFromLocalStorage.render());
-root.appendChild(renderEventBlockFromLocalStorage2.render());
+for (let key in eventsInLocalStorage) {
+	root.appendChild(new RenderEventBlockFromLocalStorage(eventsInLocalStorage[key], root).render());
+}

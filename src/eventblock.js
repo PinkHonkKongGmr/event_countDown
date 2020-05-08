@@ -1,11 +1,13 @@
 import Mounths from './mounths';
-import { arrayCreator } from './helpers';
+import { arrayCreator, putToLocalStorage } from './helpers';
 import { generateSelectorBlock, disableBtn, leftToWaitRenderer, hideControlElements, badResult } from './domlib';
 import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
 import ResultDb from './resultDB';
+import uniqid from 'uniqid';
 
 function EventBlock(root) {
+	let key = uniqid();
 	let interval = null;
 	const Block = generateSelectorBlock();
 	let resultDb = new ResultDb(Block.eventTime.time).db;
@@ -72,7 +74,7 @@ function EventBlock(root) {
 			disableBtn(Block);
 			let cd = new CountDown(resultDb);
 			if (timeFormatter(cd.getDifferance()) !== null) {
-				localStorage.setItem('db', JSON.stringify(resultDb));
+				putToLocalStorage(key, resultDb);
 				hideControlElements(Block);
 				interval = leftToWaitRenderer(Block.leftToWait, cd, resultDb);
 			} else {

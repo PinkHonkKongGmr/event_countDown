@@ -125,7 +125,6 @@ export const disableBtn = function (block) {
 export const leftToWaitRenderer = function (leftToWait, cd, db) {
 	leftToWait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), db));
 	let interval = setInterval(() => {
-		console.log('interval');
 		leftToWait.innerHTML = '';
 		leftToWait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), db));
 	}, 1000);

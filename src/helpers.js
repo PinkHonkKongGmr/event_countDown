@@ -5,3 +5,9 @@ export const arrayCreator = function (len) {
 	}
 	return arr;
 };
+
+export const putToLocalStorage = function (key, val) {
+	const obj = localStorage.getItem('eventsTest2') ? JSON.parse(localStorage.getItem('eventsTest2')) : {};
+	obj[key] = val;
+	localStorage.setItem('eventsTest2', JSON.stringify(obj));
+};
