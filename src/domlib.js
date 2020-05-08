@@ -1,10 +1,8 @@
 import selectActions from './selectActions';
-import Name from './name';
 import Year from './year';
 import Time from './time';
 
 export const generateSelectorBlock = function () {
-	const name = new Name().name;
 	const yearInstance = new Year().year;
 	const eventTime = new Time().eventTime;
 
@@ -84,7 +82,6 @@ export const generateSelectorBlock = function () {
 	[fieldWrapper, startBtn, removeBtn, wait].forEach((child) => wrapper.appendChild(child));
 
 	return {
-		name,
 		eventTime,
 		fieldWrapper,
 		yearInstance,
@@ -116,62 +113,70 @@ export const generateElement = function (element, content, className = 'default-
 	return newElement;
 };
 
-export const generateResultWrapper = function (result, block, interval) {
+export const disableBtn = function (block) {
+	block.startBtn.setAttribute('disabled', true);
+};
+
+export const generateResultWrapper = function (result, rdb) {
 	let resultContainer = document.createElement('div');
 	resultContainer.classList.add('result-container');
-	block.startBtn.setAttribute('disabled', true);
-	if (result !== null) {
-		let secondPre = generateElement('div', 'секунды: ', 'pre_counter');
-		let secondDiv = generateElement('div', result.seconds, 'counter');
-		let minutesPre = generateElement('div', 'минуты: ', 'pre_counter');
-		let minutesDiv = generateElement('div', result.minutes, 'counter');
-		let hoursPre = generateElement('div', 'часы: ', 'pre_counter');
-		let hoursDiv = generateElement('div', result.hours, 'counter');
-		let daysPre = generateElement('div', 'дни: ', 'pre_counter');
-		let daysDiv = generateElement('div', result.days, 'counter');
-		let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
-		let mounthsDiv = generateElement('div', result.mounths, 'counter');
-		let timebox = generateElement('div', block.eventTime.time, 'time');
-		let eventNameBox = generateElement('div', block.name.eventName, 'event_name');
-		let dodiv = generateElement('div', 'До события', 'do');
-		let date = generateElement(
-			'div',
-			`${block.selectDays.getInstance().value} ${block.selectMounths
-				.getInstance()
-				.value.substring(0, block.selectMounths.getInstance().value.length - 1)}я ${block.yearInput.value}`,
-			'data'
-		);
-		let left = generateElement('div', 'осталось:', 'left');
 
-		if (!block.eventTime.needTime) {
-			timebox.classList.add('hide');
-		}
-		[
-			dodiv,
-			eventNameBox,
-			date,
-			timebox,
-			left,
-			secondPre,
-			secondDiv,
-			minutesPre,
-			minutesDiv,
-			hoursPre,
-			hoursDiv,
-			daysPre,
-			daysDiv,
-			mounthsPre,
-			mounthsDiv,
-		].forEach((el) => resultContainer.appendChild(el));
+	let secondPre = generateElement('div', 'секунды: ', 'pre_counter');
+	let secondDiv = generateElement('div', result.seconds, 'counter');
+	let minutesPre = generateElement('div', 'минуты: ', 'pre_counter');
+	let minutesDiv = generateElement('div', result.minutes, 'counter');
+	let hoursPre = generateElement('div', 'часы: ', 'pre_counter');
+	let hoursDiv = generateElement('div', result.hours, 'counter');
+	let daysPre = generateElement('div', 'дни: ', 'pre_counter');
+	let daysDiv = generateElement('div', result.days, 'counter');
+	let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
+	let mounthsDiv = generateElement('div', result.mounths, 'counter');
+	let timebox = generateElement('div', rdb.time, 'time');
+	let eventNameBox = generateElement('div', rdb.name, 'event_name');
+	let dodiv = generateElement('div', 'До события', 'do');
+	let date = generateElement(
+		'div',
+		`${rdb.day} ${rdb.mounth.substring(0, rdb.mounth.length - 1)}я ${rdb.year}`,
+		'data'
+	);
+	let left = generateElement('div', 'осталось:', 'left');
 
-		[block.fieldWrapper, block.startBtn].forEach((el) => el.classList.add('hide'));
-	} else {
-		clearInterval(interval);
-		setTimeout(() => {
-			block.wait.textContent = '';
-			block.startBtn.removeAttribute('disabled');
-		}, 1300);
-		resultContainer.textContent = 'пора отпустить прошлое!';
+	if (!rdb.needTime) {
+		timebox.classList.add('hide');
 	}
+	[
+		dodiv,
+		eventNameBox,
+		date,
+		timebox,
+		left,
+		secondPre,
+		secondDiv,
+		minutesPre,
+		minutesDiv,
+		hoursPre,
+		hoursDiv,
+		daysPre,
+		daysDiv,
+		mounthsPre,
+		mounthsDiv,
+	].forEach((el) => resultContainer.appendChild(el));
+
+	return resultContainer;
+};
+
+export const hideControlElements = function (block) {
+	[block.fieldWrapper, block.startBtn].forEach((el) => el.classList.add('hide'));
+};
+
+export const badResult = function (block) {
+	let resultContainer = document.createElement('div');
+	resultContainer.classList.add('result-container');
+	setTimeout(() => {
+		block.wait.textContent = '';
+		block.startBtn.removeAttribute('disabled');
+	}, 1300);
+	resultContainer.textContent = 'пора отпустить прошлое!';
+
 	return resultContainer;
 };

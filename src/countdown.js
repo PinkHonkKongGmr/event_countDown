@@ -1,13 +1,16 @@
 class CountDown {
-	constructor(dayValue, mounthValue, yearValue, timeValue) {
-		this.dayValue = dayValue;
-		this.mounthValue = mounthValue;
-		this.yearValue = yearValue;
-		this.timeValue = timeValue;
+	constructor(rdb) {
+		this.dayValue = rdb.day;
+		this.mounthValue = rdb.mounthKey;
+		this.yearValue = rdb.year;
+		this.timeValue = rdb.time;
 		this.date = new Date(`${this.dayValue} ${this.mounthValue} ${this.yearValue} ${this.timeValue}`);
 	}
-	getDate() {
+	getDifferance() {
 		return this.date - Date.now();
+	}
+	getDate() {
+		return this.date;
 	}
 }
 

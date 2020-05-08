@@ -13,3 +13,5 @@ addBtn.addEventListener('click', (e) => {
 	const deleteBlockBind = deleteBlock.bind(null, newBlock);
 	eventBlock.deleteBlock(deleteBlockBind);
 });
+
+console.log(JSON.parse(localStorage.getItem('db')));

@@ -2,7 +2,7 @@ const Time = function () {
 	this.eventTime = {
 		set time(value) {
 			if (value.length > 0) {
-				return (this._time = `${value}`);
+				return (this._time = value);
 			} else {
 				return (this._time = '00:00');
 			}

@@ -1,10 +1,12 @@
 import Mounths from './mounths';
 import { arrayCreator } from './helpers';
-import { generateSelectorBlock, generateResultWrapper } from './domconstructor';
+import { generateSelectorBlock, disableBtn, generateResultWrapper, hideControlElements, badResult } from './domlib';
 import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
+import ResultDb from './resultDB';
 
 function EventBlock() {
+	let resultDb = new ResultDb().db;
 	let interval = null;
 	const Block = generateSelectorBlock();
 	this.createBlock = () => {
@@ -28,44 +30,60 @@ function EventBlock() {
 		};
 
 		Block.nameInput.addEventListener('input', (e) => {
-			Block.name.eventName = e.target.value.trim();
+			resultDb.name = e.target.value.trim();
 			Block.startBtnEnableController();
 		});
 
 		Block.yearInput.addEventListener('input', (e) => {
 			if (!e.target.value.match(/[^0-9]/)) {
+				// объект с годом нужен для корректного выстраивания февраля
+				// там определяется сколько дней 28 или 29
 				Block.yearInstance.year = e.target.value.trim();
+				resultDb.year = Block.yearInstance.year;
 				activateController(Block.selectMounths.getInstance().value);
 			}
 		});
 
 		Block.timeInput.addEventListener('input', (e) => {
+			// объект со временем предназначен на случай если пользователь переключит тогглер, но введет криво,
+			// кроме того там сеттер для определения вывода времени в итоге
 			Block.eventTime.time = e.target.value;
+			resultDb.time = Block.eventTime.time;
 			Block.eventTime.needTime = true;
 		});
 
 		Block.needTimeCheckBox.addEventListener('change', () => {
 			Block.timeInput.disabled = !Block.timeInput.disabled;
 			Block.eventTime.needTime = !Block.eventTime.needTime;
+			resultDb.needTime = Block.eventTime.needTime;
 		});
 
-		Block.selectMounths.getInstance().addEventListener('change', (e) => activateController(e.target.value));
+		Block.selectDays.getInstance().addEventListener('change', (e) => (resultDb.day = e.target.value));
+
+		Block.selectMounths.getInstance().addEventListener('change', (e) => {
+			resultDb.mounth = e.target.value;
+			resultDb.mounthKey = Mounths.getKey(e.target.value);
+			activateController(e.target.value);
+		});
 		Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
 
 		Block.startBtn.addEventListener('click', (e) => {
 			e.preventDefault();
-			let cd = new CountDown(
-				Block.selectDays.getInstance().value,
-				Mounths.getKey(Block.selectMounths.getInstance().value),
-				Block.yearInstance.year,
-				Block.eventTime.time
-			);
-
-			interval = setInterval(() => {
-				// для того, чтобы мы могли стилизовать вывод красиво
-				Block.wait.innerHTML = '';
-				Block.wait.appendChild(generateResultWrapper(timeFormatter(cd.getDate()), Block, interval));
-			}, 100);
+			disableBtn(Block);
+			let cd = new CountDown(resultDb);
+			if (timeFormatter(cd.getDifferance()) !== null) {
+				resultDb.date = cd.getDate();
+				localStorage.setItem('db', JSON.stringify(resultDb));
+				hideControlElements(Block);
+				let resultWrapper = generateResultWrapper(timeFormatter(cd.getDifferance()), resultDb);
+				interval = setInterval(() => {
+					// для того, чтобы мы могли стилизовать вывод красиво
+					Block.wait.innerHTML = '';
+					Block.wait.appendChild(resultWrapper);
+				}, 100);
+			} else {
+				Block.wait.appendChild(badResult(Block));
+			}
 		});
 
 		return Block.wrapper;

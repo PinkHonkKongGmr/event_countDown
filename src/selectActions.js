@@ -1,4 +1,4 @@
-import { generateElement } from './domconstructor';
+import { generateElement } from './domlib';
 
 class selectActions {
 	constructor(selector) {
