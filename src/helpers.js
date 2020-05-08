@@ -13,7 +13,7 @@ export const putToLocalStorage = function (key, val) {
 };
 
 export const deletFromLocalStorage = function (key) {
-	const obj = localStorage.getItem('__events__') ? JSON.parse(localStorage.getItem('__events__')) : {};
+	const obj = JSON.parse(localStorage.getItem('__events__'));
 	delete obj[key];
 	localStorage.setItem('__events__', JSON.stringify(obj));
 };
