@@ -74,6 +74,7 @@ function EventBlock(root) {
 			e.preventDefault();
 			disableBtn(Block);
 			let cd = new CountDown(resultDb);
+			resultDb.date = cd.getDate();
 			if (timeFormatter(cd.getDifferance()) !== null) {
 				putToLocalStorage(key, resultDb);
 				hideControlElements(Block);

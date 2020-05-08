@@ -125,59 +125,66 @@ export const disableBtn = function (block) {
 export const leftToWaitRenderer = function (leftToWait, cd, db) {
 	leftToWait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), db));
 	let interval = setInterval(() => {
+		if (db.date - Date.now() < 1100) {
+			leftToWait.innerHTML = `${db.name} настал`;
+			clearInterval(interval);
+			return;
+		}
 		leftToWait.innerHTML = '';
 		leftToWait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), db));
-	}, 1000);
+	}, 100);
 	return interval;
 };
 
 export const generateResultWrapper = function (result, rdb) {
-	let resultContainer = document.createElement('div');
-	resultContainer.classList.add('result-container');
+	if (result !== null) {
+		let resultContainer = document.createElement('div');
+		resultContainer.classList.add('result-container');
 
-	let secondPre = generateElement('div', 'секунды: ', 'pre_counter');
-	let secondDiv = generateElement('div', result.seconds, 'counter');
-	let minutesPre = generateElement('div', 'минуты: ', 'pre_counter');
-	let minutesDiv = generateElement('div', result.minutes, 'counter');
-	let hoursPre = generateElement('div', 'часы: ', 'pre_counter');
-	let hoursDiv = generateElement('div', result.hours, 'counter');
-	let daysPre = generateElement('div', 'дни: ', 'pre_counter');
-	let daysDiv = generateElement('div', result.days, 'counter');
-	let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
-	let mounthsDiv = generateElement('div', result.mounths, 'counter');
-	let timebox = generateElement('div', rdb.time, 'time');
-	let eventNameBox = generateElement('div', rdb.name, 'event_name');
-	let dodiv = generateElement('div', 'До события', 'do');
-	let date = generateElement(
-		'div',
-		`${rdb.day} ${Mounths.mounths[`${Mounths.getKey(rdb.mounth)}`].genetive}  ${rdb.year}`,
-		'data'
-	);
-	let left = generateElement('div', 'осталось:', 'left');
+		let secondPre = generateElement('div', 'секунды: ', 'pre_counter');
+		let secondDiv = generateElement('div', result.seconds, 'counter');
+		let minutesPre = generateElement('div', 'минуты: ', 'pre_counter');
+		let minutesDiv = generateElement('div', result.minutes, 'counter');
+		let hoursPre = generateElement('div', 'часы: ', 'pre_counter');
+		let hoursDiv = generateElement('div', result.hours, 'counter');
+		let daysPre = generateElement('div', 'дни: ', 'pre_counter');
+		let daysDiv = generateElement('div', result.days, 'counter');
+		let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
+		let mounthsDiv = generateElement('div', result.mounths, 'counter');
+		let timebox = generateElement('div', rdb.time, 'time');
+		let eventNameBox = generateElement('div', rdb.name, 'event_name');
+		let dodiv = generateElement('div', 'До события', 'do');
+		let date = generateElement(
+			'div',
+			`${rdb.day} ${Mounths.mounths[`${Mounths.getKey(rdb.mounth)}`].genetive}  ${rdb.year}`,
+			'data'
+		);
+		let left = generateElement('div', 'осталось:', 'left');
 
-	if (!rdb.needTime) {
-		timebox.classList.add('hide');
-	}
-	// заменить foreach обычным циклом?ибо он тяжеловесный
-	[
-		dodiv,
-		eventNameBox,
-		date,
-		timebox,
-		left,
-		secondPre,
-		secondDiv,
-		minutesPre,
-		minutesDiv,
-		hoursPre,
-		hoursDiv,
-		daysPre,
-		daysDiv,
-		mounthsPre,
-		mounthsDiv,
-	].forEach((el) => resultContainer.appendChild(el));
+		if (!rdb.needTime) {
+			timebox.classList.add('hide');
+		}
+		// заменить foreach обычным циклом?ибо он тяжеловесный
+		[
+			dodiv,
+			eventNameBox,
+			date,
+			timebox,
+			left,
+			secondPre,
+			secondDiv,
+			minutesPre,
+			minutesDiv,
+			hoursPre,
+			hoursDiv,
+			daysPre,
+			daysDiv,
+			mounthsPre,
+			mounthsDiv,
+		].forEach((el) => resultContainer.appendChild(el));
 
-	return resultContainer;
+		return resultContainer;
+	} else return generateElement('div', `Событие ${rdb.name} завершено`);
 };
 
 export const hideControlElements = function (block) {
