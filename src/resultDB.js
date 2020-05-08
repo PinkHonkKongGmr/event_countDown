@@ -55,6 +55,14 @@ const ResultDb = function (defaultTime) {
 		set needTime(value) {
 			return (this._needTime = value);
 		},
+
+		get key() {
+			return this._key;
+		},
+
+		set key(value) {
+			return (this._key = value);
+		},
 	};
 
 	Object.defineProperties(this.db, {
@@ -75,7 +83,6 @@ const ResultDb = function (defaultTime) {
 			writable: true,
 		},
 		_name: {
-			value: null,
 			writable: true,
 		},
 		_time: {
@@ -84,6 +91,9 @@ const ResultDb = function (defaultTime) {
 		},
 		_needTime: {
 			value: false,
+			writable: true,
+		},
+		key: {
 			writable: true,
 		},
 	});

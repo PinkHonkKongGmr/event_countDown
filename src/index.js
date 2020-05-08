@@ -3,7 +3,7 @@ import RenderEventBlockFromLocalStorage from './fromLocalStorage';
 
 const root = document.getElementById('root');
 const addBtn = document.getElementById('add');
-const eventsInLocalStorage = JSON.parse(localStorage.getItem('eventsTest2'));
+const eventsInLocalStorage = JSON.parse(localStorage.getItem('__events__'));
 
 addBtn.addEventListener('click', (e) => {
 	e.preventDefault();

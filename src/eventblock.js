@@ -1,5 +1,5 @@
 import Mounths from './mounths';
-import { arrayCreator, putToLocalStorage } from './helpers';
+import { arrayCreator, putToLocalStorage, deletFromLocalStorage } from './helpers';
 import { generateSelectorBlock, disableBtn, leftToWaitRenderer, hideControlElements, badResult } from './domlib';
 import CountDown from './countdown';
 import timeFormatter from './timeFormatter';
@@ -11,6 +11,7 @@ function EventBlock(root) {
 	let interval = null;
 	const Block = generateSelectorBlock();
 	let resultDb = new ResultDb(Block.eventTime.time).db;
+	resultDb.key = key;
 	this.createBlock = () => {
 		const renderDays = (val) => {
 			if (val.length > 0) {
@@ -89,6 +90,7 @@ function EventBlock(root) {
 				clearInterval(interval);
 			}
 			root.removeChild(Block.wrapper);
+			deletFromLocalStorage(key);
 		});
 
 		return Block.wrapper;

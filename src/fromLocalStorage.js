@@ -1,27 +1,22 @@
 import CountDown from './countdown';
-import { leftToWaitRenderer } from './domlib';
+import { generateLcWrapper, leftToWaitRenderer } from './domlib';
+import { deletFromLocalStorage } from './helpers';
 
 function RenderEventBlockFromLocalStorage(fromLc, root) {
-	let wrapper = document.createElement('div');
-	let deleteBtn = document.createElement('button');
-	deleteBtn.classList.add('btn', 'btn-primary');
-	let leftToWait = document.createElement('div');
-
+	let Block = generateLcWrapper();
 	let interval = null;
 	let cd = new CountDown(fromLc);
 
-	deleteBtn.addEventListener('click', (e) => {
+	Block.deleteBtn.addEventListener('click', (e) => {
 		e.preventDefault();
-		root.removeChild(wrapper);
+		root.removeChild(Block.wrapper);
 		clearInterval(interval);
+		deletFromLocalStorage(fromLc.key);
 	});
 
-	wrapper.appendChild(leftToWait);
-	wrapper.appendChild(deleteBtn);
-
 	this.render = () => {
-		interval = leftToWaitRenderer(leftToWait, cd, fromLc);
-		return wrapper;
+		interval = leftToWaitRenderer(Block.leftToWait, cd, fromLc);
+		return Block.wrapper;
 	};
 }
 

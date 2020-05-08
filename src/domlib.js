@@ -195,3 +195,15 @@ export const badResult = function (block) {
 
 	return resultContainer;
 };
+
+export const generateLcWrapper = function () {
+	let wrapper = document.createElement('div');
+	let deleteBtn = document.createElement('button');
+	deleteBtn.classList.add('btn', 'btn-primary');
+	deleteBtn.textContent = 'Удолить';
+	let leftToWait = document.createElement('div');
+	wrapper.appendChild(leftToWait);
+	wrapper.appendChild(deleteBtn);
+
+	return { wrapper, deleteBtn, leftToWait };
+};
