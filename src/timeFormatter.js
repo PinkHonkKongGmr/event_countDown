@@ -15,7 +15,7 @@ const timeFormatter = (ms) => {
 			hours = Math.floor(minutes / 60);
 			minutes = minutes - hours * 60;
 			if (hours < 24) {
-				return { seconds, minutes, hours };
+				return { seconds, minutes, hours, days, mounths };
 			} else {
 				days = Math.floor(hours / 24);
 				hours = hours - days * 24;
