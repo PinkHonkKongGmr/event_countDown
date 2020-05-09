@@ -7,16 +7,20 @@ import timeFormatter from './timeFormatter';
 import Year from './year';
 import Time from './time';
 
+export const generateElement = function (element, content, ...classes) {
+	let newElement = document.createElement(element);
+	classes.forEach((className) => newElement.classList.add(className));
+	newElement.textContent = content;
+	return newElement;
+};
+
 export const generateSelectorBlock = function () {
 	const yearInstance = new Year().year;
 	const eventTime = new Time().eventTime;
 
-	const wrapper = document.createElement('div');
-	wrapper.classList.add('form-row', 'form-group', 'event-box');
+	const wrapper = generateElement('div', null, 'form-row', 'form-group', 'event-box');
 
-	const startBtn = document.createElement('button');
-	startBtn.classList.add('btn', 'btn-primary');
-	startBtn.textContent = 'Запуск';
+	const startBtn = generateElement('button', 'Запуск', 'btn', 'btn-primary');
 	startBtn.disabled = true;
 
 	const startBtnEnableController = () => {
@@ -27,58 +31,47 @@ export const generateSelectorBlock = function () {
 		}
 	};
 
-	const removeBtn = document.createElement('button');
-	removeBtn.classList.add('btn', 'btn-primary');
-	removeBtn.textContent = 'Удолить';
+	const removeBtn = generateElement('button', 'Удолить', 'btn', 'btn-primary');
 
-	const leftToWait = generateElement('div', '', 'result');
+	const leftToWait = generateElement('div', null, 'result');
 
-	const nameInput = document.createElement('input');
-	nameInput.classList.add('form-control');
+	const nameInput = generateElement('input', null, 'form-control');
 
-	const fieldWrapper = generateElement('div', '', 'feildset-custom');
-	fieldWrapper.classList.add('form-row', 'form-group');
+	const fieldWrapper = generateElement('div', null, 'feildset-custom', 'form-row', 'form-group');
 
-	const nameWrapper = generateElement('div', 'Название события', 'name_wrapper');
-	nameWrapper.classList.add('form-group', 'col-md-12');
+	const nameWrapper = generateElement('div', 'Название события', 'name_wrapper', 'form-group', 'col-md-12');
+
 	nameWrapper.appendChild(nameInput);
 
-	const selectDays = new selectActions(generateSelector('enabled'));
-	const selectMounths = new selectActions(generateSelector('enabled'));
+	const selectDays = new selectActions(generateElement('select', null, 'form-control'));
+	const selectMounths = new selectActions(generateElement('select', null, 'form-control'));
 
-	const dayWrapper = document.createElement('div');
-	dayWrapper.classList.add('form-group', 'col-md-1');
+	const dayWrapper = generateElement('div', null, 'form-group', 'col-md-1');
 	dayWrapper.appendChild(selectDays.getInstance());
 
-	const mounthWrapper = document.createElement('div');
-	mounthWrapper.classList.add('form-group', 'col-md-8');
+	const mounthWrapper = generateElement('div', null, 'form-group', 'col-md-8');
 	mounthWrapper.appendChild(selectMounths.getInstance());
 
-	const yearInput = document.createElement('input');
-	yearInput.classList.add('form-control');
+	const yearInput = generateElement('input', null, 'form-control');
 	yearInput.setAttribute('type', 'number');
 	yearInput.value = yearInstance.year;
 
-	const yearWrapper = document.createElement('div');
-	yearWrapper.classList.add('form-group', 'col-md-3');
+	const yearWrapper = generateElement('div', null, 'form-group', 'col-md-3');
 	yearWrapper.appendChild(yearInput);
 
-	const timeInput = document.createElement('input');
-	timeInput.classList.add('form-control');
+	const timeInput = generateElement('input', null, 'form-control');
 	timeInput.setAttribute('type', 'time');
 	timeInput.disabled = true;
 
 	timeInput.value = eventTime.time;
 
-	const needTimeController = generateElement('label', '', 'switch');
+	const needTimeController = generateElement('label', null, 'switch');
 	const needTimeCheckBox = document.createElement('input');
 	needTimeCheckBox.setAttribute('type', 'checkbox');
-	const needTimeSwitchSpan = generateElement('span', '', 'slider');
-	needTimeSwitchSpan.classList.add('round');
+	const needTimeSwitchSpan = generateElement('span', null, 'slider', 'round');
 	[needTimeCheckBox, needTimeSwitchSpan].forEach((el) => needTimeController.appendChild(el));
 
-	const timeWrapper = document.createElement('div');
-	yearWrapper.classList.add('form-group', 'col-md-3');
+	const timeWrapper = generateElement('div', null, 'form-group', 'col-md-3');
 	timeWrapper.appendChild(timeInput);
 
 	[nameWrapper, dayWrapper, mounthWrapper, yearWrapper, timeWrapper, needTimeController].forEach((child) =>
@@ -104,20 +97,6 @@ export const generateSelectorBlock = function () {
 	};
 };
 
-export const generateSelector = function (disableStatus) {
-	const selectorDays = document.createElement('select');
-	selectorDays.classList.add('form-control');
-	selectorDays.setAttribute(disableStatus, true);
-	return selectorDays;
-};
-
-export const generateElement = function (element, content, className = 'default-class') {
-	let newElement = document.createElement(element);
-	newElement.classList.add(className);
-	newElement.textContent = content;
-	return newElement;
-};
-
 export const disableBtn = function (block) {
 	block.startBtn.setAttribute('disabled', true);
 };
@@ -137,8 +116,7 @@ export const leftToWaitRenderer = function (leftToWait, cd, db) {
 
 export const generateResultWrapper = function (result, rdb) {
 	if (result !== null) {
-		let resultContainer = document.createElement('div');
-		resultContainer.classList.add('result-container');
+		let resultContainer = generateElement('div', null, 'result-container');
 
 		let secondPre = generateElement('div', 'секунды: ', 'pre_counter');
 		let secondDiv = generateElement('div', result.seconds, 'counter');
@@ -191,8 +169,7 @@ export const hideControlElements = function (block) {
 };
 
 export const badResult = function (block) {
-	let resultContainer = document.createElement('div');
-	resultContainer.classList.add('result-container');
+	let resultContainer = generateElement('div', null, 'result-container');
 	setTimeout(() => {
 		block.leftToWait.textContent = '';
 		block.startBtn.removeAttribute('disabled');
@@ -203,11 +180,8 @@ export const badResult = function (block) {
 };
 
 export const generateLcWrapper = function () {
-	let wrapper = document.createElement('div');
-	wrapper.classList.add('form-row', 'form-group', 'event-box');
-	let deleteBtn = document.createElement('button');
-	deleteBtn.classList.add('btn', 'btn-primary');
-	deleteBtn.textContent = 'Удолить';
+	let wrapper = generateElement('div', null, 'form-row', 'form-group', 'event-box');
+	let deleteBtn = generateElement('button', 'Удолить', 'btn', 'btn-primary');
 	const leftToWait = generateElement('div', '', 'result');
 	wrapper.appendChild(deleteBtn);
 	wrapper.appendChild(leftToWait);
