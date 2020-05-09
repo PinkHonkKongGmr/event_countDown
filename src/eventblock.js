@@ -1,7 +1,7 @@
 import Mounths from './mounths';
 import { arrayCreator, putToLocalStorage, deletFromLocalStorage } from './helpers';
 import { generateSelectorBlock, disableBtn, leftToWaitRenderer, hideControlElements, badResult } from './domlib';
-import CountDown from './countdown';
+import dateCompiler from './dateCompiler';
 import timeFormatter from './timeFormatter';
 import ResultDb from './resultDB';
 import uniqid from 'uniqid';
@@ -73,14 +73,14 @@ function EventBlock(root) {
 		Block.startBtn.addEventListener('click', (e) => {
 			e.preventDefault();
 			disableBtn(Block);
-			let cd = new CountDown(resultDb);
-			resultDb.date = cd.getDate();
-			if (timeFormatter(cd.getDifferance()) !== null) {
+			let dc = new dateCompiler(resultDb);
+			resultDb.date = dc.getDate();
+			if (timeFormatter(dc.getDifferance()) !== null) {
 				putToLocalStorage(key, resultDb);
 				hideControlElements(Block);
 				// такая конструкция позволяет как делать функцию универсальной, тоесть и для создаваемого блока и блока из хранилища
 				// так и позволяет получать доступ к интервалам для их сбрасывания
-				interval = leftToWaitRenderer(Block.leftToWait, cd, resultDb);
+				interval = leftToWaitRenderer(Block.leftToWait, dc, resultDb);
 			} else {
 				Block.leftToWait.appendChild(badResult(Block));
 			}
