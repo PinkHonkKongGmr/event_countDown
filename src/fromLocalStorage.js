@@ -1,11 +1,11 @@
-import CountDown from './countdown';
+import dateCompiler from './dateCompiler';
 import { generateLcWrapper, leftToWaitRenderer } from './domlib';
 import { deletFromLocalStorage } from './helpers';
 
 function RenderEventBlockFromLocalStorage(fromLc, root) {
 	let Block = generateLcWrapper();
 	let interval = null;
-	let cd = new CountDown(fromLc);
+	let dc = new dateCompiler(fromLc);
 
 	Block.deleteBtn.addEventListener('click', (e) => {
 		e.preventDefault();
@@ -15,7 +15,7 @@ function RenderEventBlockFromLocalStorage(fromLc, root) {
 	});
 
 	this.render = () => {
-		interval = leftToWaitRenderer(Block.leftToWait, cd, fromLc);
+		interval = leftToWaitRenderer(Block.leftToWait, dc, fromLc);
 		return Block.wrapper;
 	};
 }

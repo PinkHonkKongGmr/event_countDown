@@ -101,15 +101,15 @@ export const disableBtn = function (block) {
 	block.startBtn.setAttribute('disabled', true);
 };
 
-export const leftToWaitRenderer = function (leftToWait, cd, db) {
+export const leftToWaitRenderer = function (leftToWait, dc, db) {
 	let interval = setInterval(() => {
-		if (cd.getDifferance() < 1100) {
+		if (dc.getDifferance() < 1100) {
 			leftToWait.innerHTML = `Событие ${db.name} завершено`;
 			clearInterval(interval);
 			return;
 		}
 		leftToWait.innerHTML = '';
-		leftToWait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), db));
+		leftToWait.appendChild(generateResultWrapper(timeFormatter(dc.getDifferance()), db));
 	}, 100);
 	return interval;
 };

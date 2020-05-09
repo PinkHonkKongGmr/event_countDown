@@ -1,4 +1,4 @@
-class CountDown {
+class dateCompiler {
 	constructor(rdb) {
 		this.dayValue = rdb.day;
 		this.mounthValue = rdb.mounthKey;
@@ -14,4 +14,4 @@ class CountDown {
 	}
 }
 
-export default CountDown;
+export default dateCompiler;
