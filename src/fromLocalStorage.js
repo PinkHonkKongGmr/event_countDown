@@ -15,7 +15,7 @@ function RenderEventBlockFromLocalStorage(fromLc, root) {
 	});
 
 	this.render = () => {
-		interval = leftToWaitRenderer(Block.leftToWait, dc, fromLc);
+		interval = leftToWaitRenderer(Block, dc, fromLc);
 		return Block.wrapper;
 	};
 }

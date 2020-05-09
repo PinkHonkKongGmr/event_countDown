@@ -1,8 +1,15 @@
 // тут планирую реализовывать механику предупреждения о скором завершении события
 const breakPoints = function (val, rdb, listeners) {
+	if (val < 100) {
+		listeners.over.forEach((func) => func());
+		rdb.over = true;
+		return;
+	}
+
 	if (val < 1000 * 60 && !rdb.minuteLeft) {
 		rdb.minuteLeft = true;
 		rdb.hourLeft = true;
+		rdb.dayLeft = true;
 		rdb.mounthLeft = true;
 		listeners.minutes.forEach((func) => func());
 		return;

@@ -91,6 +91,13 @@ const ResultDb = function (defaultTime) {
 		set minuteLeft(value) {
 			return (this._minuteLeft = value);
 		},
+		get over() {
+			return this._over;
+		},
+
+		set over(value) {
+			return (this._over = value);
+		},
 	};
 
 	Object.defineProperties(this.db, {
@@ -137,6 +144,10 @@ const ResultDb = function (defaultTime) {
 			writable: true,
 		},
 		_minuteLeft: {
+			value: false,
+			writable: true,
+		},
+		_over: {
 			value: false,
 			writable: true,
 		},
