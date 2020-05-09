@@ -63,6 +63,34 @@ const ResultDb = function (defaultTime) {
 		set key(value) {
 			return (this._key = value);
 		},
+		get mounthLeft() {
+			return this._mounthLeft;
+		},
+
+		set mounthLeft(value) {
+			return (this._mounthLeft = value);
+		},
+		get dayLeft() {
+			return this._dayLeft;
+		},
+
+		set dayLeft(value) {
+			return (this._dayLeft = value);
+		},
+		get hourLeft() {
+			return this._hourLeft;
+		},
+
+		set hourLeft(value) {
+			return (this._hourLeft = value);
+		},
+		get minuteLeft() {
+			return this._minuteLeft;
+		},
+
+		set minuteLeft(value) {
+			return (this._minuteLeft = value);
+		},
 	};
 
 	Object.defineProperties(this.db, {
@@ -93,7 +121,23 @@ const ResultDb = function (defaultTime) {
 			value: false,
 			writable: true,
 		},
-		key: {
+		_key: {
+			writable: true,
+		},
+		_mounthLeft: {
+			value: false,
+			writable: true,
+		},
+		_dayLeft: {
+			value: false,
+			writable: true,
+		},
+		_hourLeft: {
+			value: false,
+			writable: true,
+		},
+		_minuteLeft: {
+			value: false,
 			writable: true,
 		},
 	});

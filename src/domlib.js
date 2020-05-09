@@ -1,7 +1,8 @@
 import selectActions from './selectActions';
 import Mounths from './mounths';
 import timeFormatter from './timeFormatter';
-
+import breakPoints from './eventComing';
+import ListenersStorage from './listeners';
 // эти переменные здесь потому что из них подтягиваются
 //  дефолтные значения для соответсвующих инпутов
 import Year from './year';
@@ -102,7 +103,9 @@ export const disableBtn = function (block) {
 };
 
 export const leftToWaitRenderer = function (leftToWait, dc, db) {
+	const listenersStorage = new ListenersStorage(db);
 	let interval = setInterval(() => {
+		breakPoints(dc.getDifferance(), db, listenersStorage.listeners);
 		if (dc.getDifferance() < 1100) {
 			leftToWait.innerHTML = `Событие ${db.name} завершено`;
 			clearInterval(interval);
