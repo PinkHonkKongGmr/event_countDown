@@ -78,6 +78,8 @@ function EventBlock(root) {
 			if (timeFormatter(cd.getDifferance()) !== null) {
 				putToLocalStorage(key, resultDb);
 				hideControlElements(Block);
+				// такая конструкция позволяет как делать функцию универсальной, тоесть и для создаваемого блока и блока из хранилища
+				// так и позволяет получать доступ к интервалам для их сбрасывания
 				interval = leftToWaitRenderer(Block.leftToWait, cd, resultDb);
 			} else {
 				Block.leftToWait.appendChild(badResult(Block));

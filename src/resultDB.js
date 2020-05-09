@@ -1,13 +1,5 @@
 const ResultDb = function (defaultTime) {
 	this.db = {
-		get date() {
-			return this._date;
-		},
-
-		set date(value) {
-			return (this._date = value);
-		},
-
 		get day() {
 			return this._day;
 		},
@@ -74,9 +66,6 @@ const ResultDb = function (defaultTime) {
 	};
 
 	Object.defineProperties(this.db, {
-		_date: {
-			writable: true,
-		},
 		_day: {
 			value: 1,
 			writable: true,

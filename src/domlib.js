@@ -123,10 +123,9 @@ export const disableBtn = function (block) {
 };
 
 export const leftToWaitRenderer = function (leftToWait, cd, db) {
-	leftToWait.appendChild(generateResultWrapper(timeFormatter(cd.getDifferance()), db));
 	let interval = setInterval(() => {
-		if (db.date - Date.now() < 1100) {
-			leftToWait.innerHTML = `Событие ${rdb.name} завершено`;
+		if (cd.getDifferance() < 1100) {
+			leftToWait.innerHTML = `Событие ${db.name} завершено`;
 			clearInterval(interval);
 			return;
 		}
