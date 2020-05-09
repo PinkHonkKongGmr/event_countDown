@@ -77,12 +77,11 @@ function EventBlock(root) {
 			let dc = new dateCompiler(resultDb);
 			resultDb.date = dc.getDate();
 			if (timeFormatter(dc.getDifferance()) !== null) {
-				console.log(resultDb, 'когда кладем');
 				putToLocalStorage(key, resultDb);
 				hideControlElements(Block);
 				// такая конструкция позволяет как делать функцию универсальной, тоесть и для создаваемого блока и блока из хранилища
 				// так и позволяет получать доступ к интервалам для их сбрасывания
-				interval = leftToWaitRenderer(Block.leftToWait, dc, resultDb);
+				interval = leftToWaitRenderer(Block, dc, resultDb);
 			} else {
 				Block.leftToWait.appendChild(badResult(Block));
 			}

@@ -102,17 +102,16 @@ export const disableBtn = function (block) {
 	block.startBtn.setAttribute('disabled', true);
 };
 
-export const leftToWaitRenderer = function (leftToWait, dc, db) {
-	const listenersStorage = new ListenersStorage(db);
+export const leftToWaitRenderer = function (block, dc, db) {
+	const listenersStorage = new ListenersStorage(db, block);
 	let interval = setInterval(() => {
 		breakPoints(dc.getDifferance(), db, listenersStorage.listeners);
-		if (dc.getDifferance() < 1100) {
-			leftToWait.innerHTML = `Событие ${db.name} завершено`;
+		if (db.over) {
 			clearInterval(interval);
 			return;
 		}
-		leftToWait.innerHTML = '';
-		leftToWait.appendChild(generateResultWrapper(timeFormatter(dc.getDifferance()), db));
+		block.leftToWait.innerHTML = '';
+		block.leftToWait.appendChild(generateResultWrapper(timeFormatter(dc.getDifferance()), db));
 	}, 100);
 	return interval;
 };
