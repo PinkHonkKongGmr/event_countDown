@@ -120,19 +120,19 @@ export const generateResultWrapper = function (result, rdb) {
 	if (result !== null) {
 		let resultContainer = generateElement('div', null, 'result-container');
 
-		let secondPre = generateElement('div', 'секунды: ', 'pre_counter');
-		let secondDiv = generateElement('div', result.seconds, 'counter');
-		let minutesPre = generateElement('div', 'минуты: ', 'pre_counter');
-		let minutesDiv = generateElement('div', result.minutes, 'counter');
-		let hoursPre = generateElement('div', 'часы: ', 'pre_counter');
-		let hoursDiv = generateElement('div', result.hours, 'counter');
-		let daysPre = generateElement('div', 'дни: ', 'pre_counter');
-		let daysDiv = generateElement('div', result.days, 'counter');
-		let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter');
-		let mounthsDiv = generateElement('div', result.mounths, 'counter');
-		let timebox = generateElement('div', rdb.time, 'time');
-		let eventNameBox = generateElement('div', rdb.name, 'event_name');
-		let dodiv = generateElement('div', 'До события', 'do');
+		let secondPre = generateElement('div', 'секунды: ', 'pre_counter', 'print-result');
+		let secondDiv = generateElement('div', result.seconds, 'counter', 'print-result');
+		let minutesPre = generateElement('div', 'минуты: ', 'pre_counter', 'print-result');
+		let minutesDiv = generateElement('div', result.minutes, 'counter', 'print-result');
+		let hoursPre = generateElement('div', 'часы: ', 'pre_counter', 'print-result');
+		let hoursDiv = generateElement('div', result.hours, 'counter', 'print-result');
+		let daysPre = generateElement('div', 'дни: ', 'pre_counter', 'print-result');
+		let daysDiv = generateElement('div', result.days, 'counter', 'print-result');
+		let mounthsPre = generateElement('div', 'месяцы: ', 'pre_counter', 'print-result');
+		let mounthsDiv = generateElement('div', result.mounths, 'counter', 'print-result');
+		let timebox = generateElement('div', rdb.time, 'time', 'print-result');
+		let eventNameBox = generateElement('div', rdb.name, 'event_name', 'print-result');
+		let dodiv = generateElement('div', 'До события', 'do', 'print-result');
 		let date = generateElement(
 			'div',
 			`${rdb.day} ${Mounths.mounths[`${Mounths.getKey(rdb.mounth)}`].genetive}  ${rdb.year}`,
