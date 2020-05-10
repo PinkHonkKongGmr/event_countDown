@@ -50,14 +50,14 @@ export const generateSelectorBlock = function () {
 	const dayWrapper = generateElement('div', null, 'form-group', 'col-md-1');
 	dayWrapper.appendChild(selectDays.getInstance());
 
-	const mounthWrapper = generateElement('div', null, 'form-group', 'col-md-8');
+	const mounthWrapper = generateElement('div', null, 'form-group', 'col-md-10');
 	mounthWrapper.appendChild(selectMounths.getInstance());
 
 	const yearInput = generateElement('input', null, 'form-control');
 	yearInput.setAttribute('type', 'number');
 	yearInput.value = yearInstance.year;
 
-	const yearWrapper = generateElement('div', null, 'form-group', 'col-md-3');
+	const yearWrapper = generateElement('div', null, 'form-group', 'col-md-1');
 	yearWrapper.appendChild(yearInput);
 
 	const timeInput = generateElement('input', null, 'form-control');
@@ -75,7 +75,7 @@ export const generateSelectorBlock = function () {
 	const timeWrapper = generateElement('div', null, 'form-group', 'col-md-3');
 	timeWrapper.appendChild(timeInput);
 
-	[nameWrapper, dayWrapper, mounthWrapper, yearWrapper, timeWrapper, needTimeController].forEach((child) =>
+	[nameWrapper, yearWrapper, mounthWrapper, dayWrapper, timeWrapper, needTimeController].forEach((child) =>
 		fieldWrapper.appendChild(child)
 	);
 	[fieldWrapper, startBtn, removeBtn, leftToWait].forEach((child) => wrapper.appendChild(child));
