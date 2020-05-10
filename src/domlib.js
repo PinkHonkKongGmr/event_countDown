@@ -72,7 +72,7 @@ export const generateSelectorBlock = function () {
 	const needTimeSwitchSpan = generateElement('span', null, 'slider', 'round');
 	[needTimeCheckBox, needTimeSwitchSpan].forEach((el) => needTimeController.appendChild(el));
 
-	const timeWrapper = generateElement('div', null, 'form-group', 'col-md-3');
+	const timeWrapper = generateElement('div', null, 'form-group', 'col-md-2');
 	timeWrapper.appendChild(timeInput);
 
 	[nameWrapper, yearWrapper, mounthWrapper, dayWrapper, timeWrapper, needTimeController].forEach((child) =>

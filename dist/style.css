@@ -164,9 +164,26 @@ input:checked+.slider:before {
     .btn {
         width: 100%;
         margin-bottom: 10px;
+        margin-right: 0;
     }
 
     .print-result {
         border: none;
+    }
+
+    .left {
+        margin-bottom: 9px;
+        position: relative;
+    }
+
+    .left::after {
+        position: absolute;
+        content: '';
+        width: 20px;
+        height: 3px;
+        background: rgb(48, 48, 199);
+        border-radius: 2%;
+        top: 26px;
+        left: calc(50% - 10px);
     }
 }
