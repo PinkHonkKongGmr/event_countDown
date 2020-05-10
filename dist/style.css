@@ -151,3 +151,21 @@ input:checked+.slider:before {
 .slider.round:before {
     border-radius: 50%;
 }
+
+@media screen and (max-width: 768px) {
+
+    .result,
+    .result-container {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .print-result {
+        border: none;
+    }
+}
