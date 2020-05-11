@@ -58,9 +58,11 @@ const ResultDb = function (defaultTime, mounths) {
 		},
 
 		set time(value) {
-			value = parseInt(value, 10);
-			let val = value !== NaN ? value : this._time;
-			return (this._time = val);
+			let val = value.split(':');
+			if (parseInt(val[0]) > -1 && parseInt(val[0]) < 24 && parseInt(val[0]) > -1 && parseInt(val[0]) < 60) {
+				return (this._time = value);
+			}
+			return (this._time = this._time);
 		},
 
 		get needTime() {
