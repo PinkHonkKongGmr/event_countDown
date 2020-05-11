@@ -10,7 +10,7 @@ function EventBlock(root) {
 	let key = uniqid();
 	let interval = null;
 	const Block = generateSelectorBlock();
-	let resultDb = new ResultDb(Block.eventTime.time).db;
+	let resultDb = new ResultDb(Block.eventTime.time, Mounths.mounths).db;
 
 	resultDb.key = key;
 	this.createBlock = () => {

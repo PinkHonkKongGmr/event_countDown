@@ -1,11 +1,13 @@
-const ResultDb = function (defaultTime) {
+const ResultDb = function (defaultTime, mounths) {
 	this.db = {
 		get day() {
 			return this._day;
 		},
 
 		set day(value) {
-			return (this._day = value);
+			value = parseInt(value, 10);
+			let val = value !== NaN ? value : this._day;
+			return (this._day = val);
 		},
 
 		get mounthKey() {
@@ -13,7 +15,8 @@ const ResultDb = function (defaultTime) {
 		},
 
 		set mounthKey(value) {
-			return (this._mounthKey = value);
+			let val = mounths.hasOwnProperty(value) ? value : this._day;
+			return (this._mounthKey = val);
 		},
 
 		get mounth() {
@@ -21,7 +24,11 @@ const ResultDb = function (defaultTime) {
 		},
 
 		set mounth(value) {
-			return (this._mounth = value);
+			let val = this._mounth;
+			for (let key in mounths) {
+				if (mounths[key].name === value) val = value;
+			}
+			return (this._mounth = val);
 		},
 
 		get year() {
@@ -29,7 +36,9 @@ const ResultDb = function (defaultTime) {
 		},
 
 		set year(value) {
-			return (this._year = value);
+			value = parseInt(value, 10);
+			let val = value !== NaN ? value : this._year;
+			return (this._year = val);
 		},
 
 		get name() {
@@ -37,7 +46,11 @@ const ResultDb = function (defaultTime) {
 		},
 
 		set name(value) {
-			return (this._name = value);
+			if (typeof value === 'number' || typeof value === 'string') {
+				return (this._name = value);
+			} else {
+				return (this._name = this._name);
+			}
 		},
 
 		get time() {
@@ -45,7 +58,11 @@ const ResultDb = function (defaultTime) {
 		},
 
 		set time(value) {
-			return (this._time = value);
+			let val = value.split(':');
+			if (parseInt(val[0]) > -1 && parseInt(val[0]) < 24 && parseInt(val[0]) > -1 && parseInt(val[0]) < 60) {
+				return (this._time = value);
+			}
+			return (this._time = this._time);
 		},
 
 		get needTime() {
@@ -53,7 +70,8 @@ const ResultDb = function (defaultTime) {
 		},
 
 		set needTime(value) {
-			return (this._needTime = value);
+			let val = typeof value === 'boolean' ? value : this._needTime;
+			return (this._needTime = val);
 		},
 
 		get key() {
@@ -68,35 +86,40 @@ const ResultDb = function (defaultTime) {
 		},
 
 		set mounthLeft(value) {
-			return (this._mounthLeft = value);
+			let val = typeof value === 'boolean' ? value : this._mounthLeft;
+			return (this._mounthLeft = val);
 		},
 		get dayLeft() {
 			return this._dayLeft;
 		},
 
 		set dayLeft(value) {
-			return (this._dayLeft = value);
+			let val = typeof value === 'boolean' ? value : this._dayLeft;
+			return (this._dayLeft = val);
 		},
 		get hourLeft() {
 			return this._hourLeft;
 		},
 
 		set hourLeft(value) {
-			return (this._hourLeft = value);
+			let val = typeof value === 'boolean' ? value : this._hourLeft;
+			return (this._hourLeft = val);
 		},
 		get minuteLeft() {
 			return this._minuteLeft;
 		},
 
 		set minuteLeft(value) {
-			return (this._minuteLeft = value);
+			let val = typeof value === 'boolean' ? value : this._minuteLeft;
+			return (this._minuteLeft = val);
 		},
 		get over() {
 			return this._over;
 		},
 
 		set over(value) {
-			return (this._over = value);
+			let val = typeof value === 'boolean' ? value : this._over;
+			return (this._over = val);
 		},
 	};
 
