@@ -14,6 +14,10 @@ const DataEngine = function () {
 
 	this.resultDb.key = this.key;
 
+	this.stopInterval = () => {
+		if (this.interval !== null) clearInterval(this.interval);
+	};
+
 	this.nameInputHandler = (e) => {
 		this.resultDb.name = e.target.value.trim();
 		this.Block.startBtnEnableController();

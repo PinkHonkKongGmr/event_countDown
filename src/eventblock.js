@@ -5,7 +5,6 @@ import DataEngine from './dataEngine';
 function EventBlock(root) {
 	const dataEngine = new DataEngine();
 	const Block = dataEngine.Block;
-	let interval = null;
 	const key = dataEngine.resultDb.key;
 	this.createBlock = () => {
 		const renderDays = (val) => {
@@ -19,6 +18,7 @@ function EventBlock(root) {
 
 		renderDays(Mounths.mounths.January.name);
 		// select.options  по индексу выдает undefined
+		Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
 
 		const activateController = (days) => {
 			renderDays(days);
@@ -35,49 +35,29 @@ function EventBlock(root) {
 			activateController(dataEngine.resultDb.mounth);
 		};
 
-		const startBtnhandler = (e) => {
-			dataEngine.startBtnhandler(e);
-			interval = dataEngine.interval;
-		};
-
-		Block.nameInput.addEventListener('input', dataEngine.nameInputHandler);
-
-		Block.yearInput.addEventListener('input', yearInputHandler);
-
-		Block.timeInput.addEventListener('input', dataEngine.timeInputHandler);
-
-		Block.needTimeCheckBox.addEventListener('change', dataEngine.needTimeCheckBoxHandler);
-
-		Block.selectDays.getInstance().addEventListener('change', dataEngine.dayInputHandler);
-
-		Block.selectMounths.getInstance().addEventListener('change', mouthInputHandler);
-		Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
-
-		Block.startBtn.addEventListener('click', startBtnhandler);
-
-		// удалить eventlisteners
-		Block.removeBtn.addEventListener('click', (e) => {
+		const removeBtnHandler = (e) => {
 			e.preventDefault();
-
-			if (interval !== null) {
-				clearInterval(interval);
-			}
+			dataEngine.stopInterval();
 			root.removeChild(Block.wrapper);
 			deletFromLocalStorage(key);
 			Block.nameInput.removeEventListener('input', dataEngine.nameInputHandler);
-
 			Block.yearInput.removeEventListener('input', yearInputHandler);
-
 			Block.timeInput.removeEventListener('input', dataEngine.timeInputHandler);
-
 			Block.needTimeCheckBox.removeEventListener('change', dataEngine.needTimeCheckBoxHandler);
-
 			Block.selectDays.getInstance().removeEventListener('change', dataEngine.dayInputHandler);
-
 			Block.selectMounths.getInstance().removeEventListener('change', mouthInputHandler);
+			Block.startBtn.removeEventListener('click', dataEngine.startBtnhandler);
+			Block.removeBtn.removeEventListener('click', removeBtnHandler);
+		};
 
-			Block.startBtn.removeEventListener('click', startBtnhandler);
-		});
+		Block.nameInput.addEventListener('input', dataEngine.nameInputHandler);
+		Block.yearInput.addEventListener('input', yearInputHandler);
+		Block.timeInput.addEventListener('input', dataEngine.timeInputHandler);
+		Block.needTimeCheckBox.addEventListener('change', dataEngine.needTimeCheckBoxHandler);
+		Block.selectDays.getInstance().addEventListener('change', dataEngine.dayInputHandler);
+		Block.selectMounths.getInstance().addEventListener('change', mouthInputHandler);
+		Block.startBtn.addEventListener('click', dataEngine.startBtnhandler);
+		Block.removeBtn.addEventListener('click', removeBtnHandler);
 
 		return Block.wrapper;
 	};
