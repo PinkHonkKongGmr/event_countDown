@@ -1,18 +1,12 @@
 import Mounths from './mounths';
-import { arrayCreator, putToLocalStorage, deletFromLocalStorage } from './helpers';
-import { generateSelectorBlock, disableBtn, leftToWaitRenderer, hideControlElements, badResult } from './domlib';
-import dateCompiler from './dateCompiler';
-import timeFormatter from './timeFormatter';
-import ResultDb from './resultDB';
-import uniqid from 'uniqid';
+import { arrayCreator, deletFromLocalStorage } from './helpers';
+import DataEngine from './dataEngine';
 
 function EventBlock(root) {
-	let key = uniqid();
+	const dataEngine = new DataEngine();
+	const Block = dataEngine.Block;
 	let interval = null;
-	const Block = generateSelectorBlock();
-	let resultDb = new ResultDb(Block.eventTime.time, Mounths.mounths).db;
-
-	resultDb.key = key;
+	const key = dataEngine.resultDb.key;
 	this.createBlock = () => {
 		const renderDays = (val) => {
 			if (val.length > 0) {
@@ -20,8 +14,6 @@ function EventBlock(root) {
 				Block.selectDays.addOptions(
 					arrayCreator(Mounths.getMounth(val).daysPerMounth(Block.yearInstance.leap))
 				);
-				// решил сделать по дефолту доступным
-				// Block.selectDays.enable();
 			}
 		};
 
@@ -33,68 +25,58 @@ function EventBlock(root) {
 			Block.startBtnEnableController();
 		};
 
-		Block.nameInput.addEventListener('input', (e) => {
-			resultDb.name = e.target.value.trim();
-			Block.startBtnEnableController();
-		});
+		const mouthInputHandler = (e) => {
+			dataEngine.mouthInputHandler(e);
+			activateController(dataEngine.resultDb.mounth);
+		};
 
-		Block.yearInput.addEventListener('input', (e) => {
-			if (!e.target.value.match(/[^0-9]/)) {
-				// объект с годом нужен для корректного выстраивания февраля
-				// там определяется сколько дней 28 или 29
-				Block.yearInstance.year = e.target.value.trim();
-				resultDb.year = Block.yearInstance.year;
-				activateController(Block.selectMounths.getInstance().value);
-			}
-		});
+		const yearInputHandler = (e) => {
+			dataEngine.yearInputhandler(e);
+			activateController(dataEngine.resultDb.mounth);
+		};
 
-		Block.timeInput.addEventListener('input', (e) => {
-			// объект со временем предназначен на случай если пользователь переключит тогглер, но введет криво,
-			// кроме того там сеттер для определения вывода времени в итоге
-			Block.eventTime.time = e.target.value;
-			resultDb.time = Block.eventTime.time;
-			Block.eventTime.needTime = true;
-		});
+		const startBtnhandler = (e) => {
+			dataEngine.startBtnhandler(e);
+			interval = dataEngine.interval;
+		};
 
-		Block.needTimeCheckBox.addEventListener('change', () => {
-			Block.timeInput.disabled = !Block.timeInput.disabled;
-			Block.eventTime.needTime = !Block.eventTime.needTime;
-			resultDb.needTime = Block.eventTime.needTime;
-		});
+		Block.nameInput.addEventListener('input', dataEngine.nameInputHandler);
 
-		Block.selectDays.getInstance().addEventListener('change', (e) => (resultDb.day = e.target.value));
+		Block.yearInput.addEventListener('input', yearInputHandler);
 
-		Block.selectMounths.getInstance().addEventListener('change', (e) => {
-			resultDb.mounth = e.target.value;
-			resultDb.mounthKey = Mounths.getKey(e.target.value);
-			activateController(e.target.value);
-		});
+		Block.timeInput.addEventListener('input', dataEngine.timeInputHandler);
+
+		Block.needTimeCheckBox.addEventListener('change', dataEngine.needTimeCheckBoxHandler);
+
+		Block.selectDays.getInstance().addEventListener('change', dataEngine.dayInputHandler);
+
+		Block.selectMounths.getInstance().addEventListener('change', mouthInputHandler);
 		Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
 
-		Block.startBtn.addEventListener('click', (e) => {
-			e.preventDefault();
-			disableBtn(Block);
-			let dc = new dateCompiler(resultDb);
-			resultDb.date = dc.getDate();
-			if (timeFormatter(dc.getDifferance()) !== null) {
-				putToLocalStorage(key, resultDb);
-				hideControlElements(Block);
-				// такая конструкция позволяет как делать функцию универсальной, тоесть и для создаваемого блока и блока из хранилища
-				// так и позволяет получать доступ к интервалам для их сбрасывания
-				interval = leftToWaitRenderer(Block, dc, resultDb);
-			} else {
-				Block.leftToWait.appendChild(badResult(Block));
-			}
-		});
+		Block.startBtn.addEventListener('click', startBtnhandler);
 
 		// удалить eventlisteners
 		Block.removeBtn.addEventListener('click', (e) => {
 			e.preventDefault();
+
 			if (interval !== null) {
 				clearInterval(interval);
 			}
 			root.removeChild(Block.wrapper);
 			deletFromLocalStorage(key);
+			Block.nameInput.removeEventListener('input', dataEngine.nameInputHandler);
+
+			Block.yearInput.removeEventListener('input', yearInputHandler);
+
+			Block.timeInput.removeEventListener('input', dataEngine.timeInputHandler);
+
+			Block.needTimeCheckBox.removeEventListener('change', dataEngine.needTimeCheckBoxHandler);
+
+			Block.selectDays.getInstance().removeEventListener('change', dataEngine.dayInputHandler);
+
+			Block.selectMounths.getInstance().removeEventListener('change', mouthInputHandler);
+
+			Block.startBtn.removeEventListener('click', startBtnhandler);
 		});
 
 		return Block.wrapper;
