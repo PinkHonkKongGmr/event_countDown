@@ -4,15 +4,34 @@ import dateCompiler from './dateCompiler';
 import timeFormatter from './timeFormatter';
 import resultDb from './resultDb';
 import uniqid from 'uniqid';
-import { putToLocalStorage } from './helpers';
+import { arrayCreator, putToLocalStorage } from './helpers';
 
 const DataEngine = function () {
 	this.key = uniqid();
 	this.interval = null;
 	this.Block = generateSelectorBlock();
 	this.resultDb = new resultDb(this.Block.eventTime.time, Mounths.mounths).db;
-
 	this.resultDb.key = this.key;
+
+	// отрисовка дефолтных состояний
+	const renderDays = (val) => {
+		if (val.length > 0) {
+			this.Block.selectDays.clearContent();
+			this.Block.selectDays.addOptions(
+				arrayCreator(Mounths.getMounth(val).daysPerMounth(this.Block.yearInstance.leap))
+			);
+		}
+	};
+
+	renderDays(Mounths.mounths.January.name);
+	// select.options  по индексу выдает undefined
+	this.Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
+	// отрисовка завершена
+
+	const activateController = (days) => {
+		renderDays(days);
+		this.Block.startBtnEnableController();
+	};
 
 	this.stopInterval = () => {
 		if (this.interval !== null) clearInterval(this.interval);
@@ -29,6 +48,7 @@ const DataEngine = function () {
 			// там определяется сколько дней 28 или 29
 			this.Block.yearInstance.year = e.target.value.trim();
 			this.resultDb.year = this.Block.yearInstance.year;
+			activateController(this.resultDb.mounth);
 		}
 	};
 
@@ -51,6 +71,7 @@ const DataEngine = function () {
 	this.mouthInputHandler = (e) => {
 		this.resultDb.mounth = e.target.value;
 		this.resultDb.mounthKey = Mounths.getKey(e.target.value);
+		activateController(this.resultDb.mounth);
 	};
 
 	this.startBtnhandler = (e) => {
