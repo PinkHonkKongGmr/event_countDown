@@ -1,5 +1,6 @@
-import EventBlock from './eventblock';
-import RenderEventBlockFromLocalStorage from './fromLocalStorage';
+import EventBlock from './modules/eventblock';
+import RenderEventBlockFromLocalStorage from './modules/fromLocalStorage';
+import './style/style.scss';
 
 const root = document.getElementById('root');
 const addBtn = document.getElementById('add');

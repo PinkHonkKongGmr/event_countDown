@@ -1,0 +1,180 @@
+$blue: rgb(48, 48, 199);
+$crimson: rgb(236, 71, 56);
+$crimsonHover: rgb(236, 42, 25);
+$easyBlue: #2196f3;
+#root {
+	margin-top: 30px;
+}
+
+#add {
+	margin-bottom: 26px;
+	background: $crimson;
+	border: none;
+	outline: none;
+	&:hover {
+		background: $crimsonHover;
+	}
+}
+
+.name_wrapper {
+	position: relative;
+
+	&::before {
+		position: absolute;
+		content: '*';
+		color: $crimson;
+		font-size: 18px;
+		top: -3px;
+		left: 142px;
+	}
+}
+
+.event-box {
+	border: 1px solid rgba(38, 37, 41, 0.3);
+	border-radius: 0.6rem;
+	padding: 20px;
+}
+
+.feildset-custom {
+	width: 100%;
+	border: 1px solid rgba(116, 106, 170, 0.3);
+	border-radius: 0.6rem;
+	padding: 10px;
+}
+
+.btn {
+	margin-right: 20px;
+}
+
+.result-container {
+	display: flex;
+	align-items: center;
+}
+
+.pre_counter {
+	color: $blue;
+	margin-right: 6px;
+}
+
+.counter {
+	color: $crimson;
+	margin-right: 5px;
+	padding-right: 6px;
+	border-right: 1px solid $blue;
+}
+
+.hide {
+	display: none;
+}
+
+.do {
+	margin-right: 5px;
+}
+
+.data {
+	margin-right: 5px;
+	color: $blue;
+}
+
+.left {
+	margin-right: 5px;
+}
+
+.result-container {
+	display: flex;
+	align-items: center;
+}
+
+.result {
+	display: flex;
+	align-items: center;
+}
+
+.event_name {
+	margin-right: 5px;
+	color: $crimson;
+}
+
+.time {
+	margin-right: 5px;
+	color: rgb(23, 172, 18);
+}
+
+.switch {
+	margin-top: 2px;
+	margin-left: 5px;
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+}
+
+.switch input {
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: 0.4s;
+	transition: 0.4s;
+
+	&:before {
+		position: absolute;
+		content: '';
+		height: 26px;
+		width: 26px;
+		left: 4px;
+		bottom: 4px;
+		background-color: white;
+		-webkit-transition: 0.4s;
+		transition: 0.4s;
+	}
+}
+
+input:checked + .slider {
+	background-color: $easyBlue;
+}
+
+input:focus + .slider {
+	box-shadow: 0 0 1px $easyBlue;
+}
+
+input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+}
+
+.slider.round {
+	border-radius: 34px;
+}
+
+.slider.round:before {
+	border-radius: 50%;
+}
+
+@media screen and (max-width: 768px) {
+	.result,
+	.result-container {
+		display: flex;
+		flex-direction: column;
+		margin: auto;
+	}
+
+	.btn {
+		width: 100%;
+		margin-bottom: 10px;
+	}
+
+	.print-result {
+		border: none;
+	}
+}

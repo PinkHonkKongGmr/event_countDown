@@ -5,7 +5,7 @@ const timeFormatter = (ms) => {
 	let mounths = 0;
 	let seconds = ms / 1000;
 	if (seconds < 60) {
-		return { seconds: Math.round(seconds) };
+		return { seconds: Math.round(seconds), minutes, hours, days, mounths };
 	} else {
 		minutes = Math.floor(seconds / 60);
 		seconds = Math.floor(seconds - minutes * 60);
