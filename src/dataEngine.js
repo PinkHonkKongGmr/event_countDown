@@ -98,25 +98,25 @@ const DataEngine = function (root) {
 	};
 
 	const eventBindler = new Map([
-		[Block.nameInput, nameInputHandler],
-		[Block.yearInput, yearInputhandler],
-		[Block.timeInput, timeInputHandler],
-		[Block.needTimeCheckBox, needTimeCheckBoxHandler],
-		[Block.selectDays.getInstance(), dayInputHandler],
-		[Block.selectMounths.getInstance(), mouthInputHandler],
-		[Block.startBtn, startBtnhandler],
-		[Block.removeBtn, removeBtnHandler],
+		[Block.nameInput, { event: 'input', handler: nameInputHandler }],
+		[Block.yearInput, { event: 'input', handler: yearInputhandler }],
+		[Block.timeInput, { event: 'input', handler: timeInputHandler }],
+		[Block.needTimeCheckBox, { event: 'change', handler: needTimeCheckBoxHandler }],
+		[Block.selectDays.getInstance(), { event: 'change', handler: dayInputHandler }],
+		[Block.selectMounths.getInstance(), { event: 'change', handler: mouthInputHandler }],
+		[Block.startBtn, { event: 'click', handler: startBtnhandler }],
+		[Block.removeBtn, { event: 'click', handler: removeBtnHandler }],
 	]);
 
 	this.eventBindler = () => {
 		for (let [key, value] of eventBindler) {
-			key.addEventListener('click', value);
+			key.addEventListener(value.event, value.handler);
 		}
 	};
 
 	const eventDestroyer = () => {
 		for (let [key, value] of eventBindler) {
-			key.removeEventListener('click', value);
+			key.removeEventListener(value.event, value.handler);
 		}
 	};
 };
