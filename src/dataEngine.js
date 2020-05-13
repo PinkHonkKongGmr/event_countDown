@@ -4,17 +4,14 @@ import dateCompiler from './dateCompiler';
 import timeFormatter from './timeFormatter';
 import ResultDb from './resultDb';
 import uniqid from 'uniqid';
-import { arrayCreator, putToLocalStorage } from './helpers';
+import { arrayCreator, putToLocalStorage, deletFromLocalStorage } from './helpers';
 
-const DataEngine = function () {
+const DataEngine = function (root) {
 	this.Block = generateSelectorBlock();
-	this.key = uniqid();
-	this.resultDb = new ResultDb(this.Block.eventTime.time, Mounths.mounths).db;
-
-	const key = this.key;
+	const key = uniqid();
 	let interval = null;
 	const Block = this.Block;
-	const resultDb = this.resultDb;
+	const resultDb = new ResultDb(this.Block.eventTime.time, Mounths.mounths).db;
 	resultDb.key = key;
 
 	// отрисовка дефолтных состояний
@@ -35,16 +32,16 @@ const DataEngine = function () {
 	Block.selectMounths.addOptions(Object.entries(Mounths.mounths).map((mounth) => mounth[1].name));
 	// отрисовка завершена
 
-	this.stopInterval = () => {
+	const stopInterval = () => {
 		if (interval !== null) clearInterval(interval);
 	};
 
-	this.nameInputHandler = (e) => {
+	const nameInputHandler = (e) => {
 		resultDb.name = e.target.value.trim();
 		Block.startBtnEnableController();
 	};
 
-	this.yearInputhandler = (e) => {
+	const yearInputhandler = (e) => {
 		if (!e.target.value.match(/[^0-9]/)) {
 			// объект с годом нужен для корректного выстраивания февраля
 			// там определяется сколько дней 28 или 29
@@ -54,7 +51,7 @@ const DataEngine = function () {
 		}
 	};
 
-	this.timeInputHandler = (e) => {
+	const timeInputHandler = (e) => {
 		// объект со временем предназначен на случай если пользователь переключит тогглер, но введет криво,
 		// кроме того там сеттер для определения вывода времени в итоге
 		Block.eventTime.time = e.target.value;
@@ -62,21 +59,21 @@ const DataEngine = function () {
 		Block.eventTime.needTime = true;
 	};
 
-	this.needTimeCheckBoxHandler = () => {
+	const needTimeCheckBoxHandler = () => {
 		Block.timeInput.disabled = !Block.timeInput.disabled;
 		Block.eventTime.needTime = !Block.eventTime.needTime;
 		resultDb.needTime = Block.eventTime.needTime;
 	};
 
-	this.dayInputHandler = (e) => (resultDb.day = e.target.value);
+	const dayInputHandler = (e) => (resultDb.day = e.target.value);
 
-	this.mouthInputHandler = (e) => {
+	const mouthInputHandler = (e) => {
 		resultDb.mounth = e.target.value;
 		resultDb.mounthKey = Mounths.getKey(e.target.value);
 		activateController(resultDb.mounth);
 	};
 
-	this.startBtnhandler = (e) => {
+	const startBtnhandler = (e) => {
 		e.preventDefault();
 		disableBtn(Block);
 		let dc = new dateCompiler(resultDb);
@@ -89,6 +86,37 @@ const DataEngine = function () {
 			interval = leftToWaitRenderer(Block, dc, resultDb);
 		} else {
 			Block.leftToWait.appendChild(badResult(Block));
+		}
+	};
+
+	const removeBtnHandler = (e) => {
+		e.preventDefault();
+		stopInterval();
+		root.removeChild(Block.wrapper);
+		deletFromLocalStorage(key);
+		eventDestroyer();
+	};
+
+	const eventBindler = new Map([
+		[Block.nameInput, nameInputHandler],
+		[Block.yearInput, yearInputhandler],
+		[Block.timeInput, timeInputHandler],
+		[Block.needTimeCheckBox, needTimeCheckBoxHandler],
+		[Block.selectDays.getInstance(), dayInputHandler],
+		[Block.selectMounths.getInstance(), mouthInputHandler],
+		[Block.startBtn, startBtnhandler],
+		[Block.removeBtn, removeBtnHandler],
+	]);
+
+	this.eventBindler = () => {
+		for (let [key, value] of eventBindler) {
+			key.addEventListener('click', value);
+		}
+	};
+
+	const eventDestroyer = () => {
+		for (let [key, value] of eventBindler) {
+			key.removeEventListener('click', value);
 		}
 	};
 };
